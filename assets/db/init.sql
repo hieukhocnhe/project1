@@ -23,7 +23,6 @@ CREATE TABLE accounts (
     notification_enabled BOOLEAN DEFAULT 1,
     notification_message TEXT,
     products_to_ship TEXT,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (position_id) REFERENCES positions(id) ON DELETE CASCADE
 );
 
