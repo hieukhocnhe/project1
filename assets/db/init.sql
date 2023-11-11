@@ -26,6 +26,7 @@ CREATE TABLE accounts (
     FOREIGN KEY (position_id) REFERENCES positions(id) ON DELETE CASCADE
 );
 
+
 -- Bảng nhà cung cấp
 CREATE TABLE suppliers (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -45,13 +46,15 @@ CREATE TABLE products (
     FOREIGN KEY (supplier_id) REFERENCES suppliers(id)
 );
 
--- Bảng giao dịch
-CREATE TABLE transactions (
+-- Bảng lô hàng
+CREATE TABLE batches (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    product_id INT(11),
-    transaction_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    transaction_type VARCHAR(50),
-    quantity_changed INT(11),
+    product_id INT(11) NOT NULL,
+    production_date DATE NOT NULL,
+    expiry_date DATE,
+    quantity INT(11) NOT NULL,
+    status VARCHAR(50) DEFAULT 'Available',
+    notes TEXT,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
@@ -62,26 +65,14 @@ CREATE TABLE storage_areas (
     area_name VARCHAR(255) NOT NULL
 );
 
--- Bảng giao dịch nhập kho
-CREATE TABLE incoming_transactions (
+-- Bảng giao dịch
+CREATE TABLE transactions (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     product_id INT(11),
     transaction_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    quantity INT(11),
+    transaction_type VARCHAR(50),
+    quantity_changed INT(11),
     storage_area_id INT(11),
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES products(id),
-    FOREIGN KEY (storage_area_id) REFERENCES storage_areas(id)
-);
-
--- Bảng giao dịch xuất kho
-CREATE TABLE outgoing_transactions (
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    product_id INT(11),
-    transaction_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    quantity INT(11),
-    storage_area_id INT(11),
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id),
     FOREIGN KEY (storage_area_id) REFERENCES storage_areas(id)
 );
@@ -138,9 +129,11 @@ CREATE TABLE stock_statistics (
 CREATE TABLE notifications (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     account_id INT(11) NOT NULL,
+    product_id INT(11) NOT NULL,
     message TEXT NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (account_id) REFERENCES accounts(id)
+    FOREIGN KEY (account_id) REFERENCES accounts(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
 -- Bảng tồn kho
@@ -162,12 +155,12 @@ CREATE TABLE inventory (
 CREATE TABLE returns (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     order_id INT(11) NOT NULL,
-    product_id INT(11) NOT NULL,
+    batche_id INT(11) NOT NULL,
     quantity INT(11) NOT NULL,
     return_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(50),
     note TEXT,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (order_id) REFERENCES orders(id),
-    FOREIGN KEY (product_id) REFERENCES products(id)
+    FOREIGN KEY (batche_id) REFERENCES batches(id)
 );
+
