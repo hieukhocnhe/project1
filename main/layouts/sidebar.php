@@ -6,7 +6,7 @@
         <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html "
             target="_blank">
             <img src="../assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-1 font-weight-bold">Argon Dashboard 2</span>
+            <span class="ms-1 font-weight-bold">Hieu's Inventory Management</span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -27,7 +27,7 @@
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Tables</span>
+                    <span class="nav-link-text ms-1">Bảng</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -36,29 +36,20 @@
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Billing</span>
+                    <span class="nav-link-text ms-1">Hóa đơn</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="../pages/virtual-reality.php">
+                <a class="nav-link " href="../pages/batch.php">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-app text-info text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Virtual Reality</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " href="../pages/rtl.php">
-                    <div
-                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-world-2 text-danger text-sm opacity-10"></i>
-                    </div>
-                    <span class="nav-link-text ms-1">RTL</span>
+                    <span class="nav-link-text ms-1">Lô hàng</span>
                 </a>
             </li>
             <li class="nav-item mt-3">
-                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
+                <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Trang tài khoản</h6>
             </li>
             <li class="nav-item">
                 <a class="nav-link " href="../pages/profile.php">
@@ -66,7 +57,7 @@
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Profile</span>
+                    <span class="nav-link-text ms-1">Trang cá nhân</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -75,7 +66,7 @@
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Sign In</span>
+                    <span class="nav-link-text ms-1">Đăng nhập</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -84,7 +75,7 @@
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="ni ni-collection text-info text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Sign Up</span>
+                    <span class="nav-link-text ms-1">Quên mật khẩu</span>
                 </a>
             </li>
         </ul>
