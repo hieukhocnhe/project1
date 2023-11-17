@@ -7,7 +7,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="../assets/img/favicon.png">
     <title>
-        Argon Dashboard 2 by Creative Tim
+        Hieu's Inventory Management
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -29,12 +29,79 @@
         <?php include 'layouts/header.php' ?>
         <!-- End Navbar -->
         <div class="container-fluid py-4">
-            i
             <?php
+            // Include
+            
+            include '../model/pdo.php';
+            include '../model/supplier.php';
+
+
+
             if (isset($_GET['act']) && $_GET['act'] !== '') {
                 switch ($_GET['act']) {
                     case 'dashboard':
                         include 'dashboard.php';
+                        break;
+                    case 'suppliers':
+                        $suppliers = getAllSuppliers();
+                        include '../pages/suppliers.php';
+                        break;
+                    case 'addSupplier':
+                        if (isset($_POST['addSupplier'])) {
+                            $name = $_POST['name'];
+                            $contact_person = $_POST['contact_person'];
+                            $contact_number = $_POST['contact_number'];
+                            $file = $_FILES['logo'];
+                            $logo = $file['name'];
+                            insertSupplier($name, $logo, $contact_person, $contact_number);
+                            move_uploaded_file($file['tmp_name'], '../assets/img/suppliers' . $logo);
+                        }
+                        echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
+                        break;
+                    case 'editSupplier':
+                        if (isset($_POST['editSupplier'])) {
+                            $id = $_POST['edit_id'];
+                            $name = $_POST['edit_name'];
+                            $contact_person = $_POST['edit_contact_person'];
+                            $contact_number = $_POST['edit_contact_number'];
+                            if ($_FILES['edit_logo']['name'] != "") {
+                                $path = '../assets/img/suppliers/';
+                                $logo = $_FILES['edit_logo']['name'];
+                                move_uploaded_file($_FILES['edit_logo']['tmp_name'], $path . $logo);
+                            } else {
+                                $logo = $_POST['edit_logo'];
+                            }
+                        }
+                        editSupplier($id, $name, $logo, $contact_person, $contact_number);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
+                        break;
+                    case 'delSupplier':
+                        deleteSupplier($_GET['id']);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
+                        break;
+                    case 'products':
+                        include '../pages/products.php';
+                        break;
+                    case 'invoices':
+                        include '../pages/invoices.php';
+                        break;
+                    case 'batches':
+                        include '../pages/batches.php';
+                        break;
+                    case 'returns':
+                        include '../pages/returns.php';
+                        break;
+                    case 'inventories':
+                        include '../pages/inventories.php';
+                        break;
+                    case 'stock_statistics':
+                        include '../pages/stock_statistics.php';
+                        break;
+                    case 'transactions':
+                        include '../pages/transactions.php';
+                        break;
+                    case 'profile':
+                        include '../pages/profile.php';
                         break;
                     default:
                         include 'dashboard.php';
@@ -45,6 +112,8 @@
 
             }
             ?>
+        </div>
+        <div>
             <?php include 'layouts/footer.php' ?>
         </div>
     </main>
@@ -239,6 +308,23 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    <script>
+        // Lấy tất cả các liên kết trong menu
+        var menuLinks = document.querySelectorAll('.nav-link');
+
+        // Lặp qua từng liên kết và kiểm tra URL hiện tại
+        for (var i = 0; i < menuLinks.length; i++) {
+            // Lấy href của liên kết
+            var href = menuLinks[i].getAttribute('href');
+            // Kiểm tra xem URL hiện tại có chứa href của liên kết hay không
+            if (window.location.href.indexOf(href) !== -1) {
+                // Nếu có, thêm lớp "active" vào liên kết
+                menuLinks[i].classList.add('active');
+            } else {
+                menuLinks[i].classList.remove('active');
+            }
+        }
+    </script>
 </body>
 
 </html>
