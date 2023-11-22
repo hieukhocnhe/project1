@@ -58,15 +58,21 @@ CREATE TABLE batches (
     product_id INT(11) NOT NULL,
     supplier_id INT(11) NOT NULL,
     storage_area_id INT(11),
-    production_date DATE NOT NULL,
-    expiry_date DATE NOT NULL,
-    quantity INT(11) NOT NULL,
     status VARCHAR(255) NOT NULL DEFAULT 'Available',
-    notes TEXT NULL,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id),
     FOREIGN KEY (supplier_id) REFERENCES suppliers(id),
     FOREIGN KEY (storage_area_id) REFERENCES storage_areas(id)
+);
+
+-- Bảng chi tiết lô hàng
+CREATE TABLE batche_detail (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    batche_id INT(11) NOT NULL,
+    quantity INT(11) NOT NULL,
+    production_date DATE NOT NULL,
+    expiry_date DATE NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (batche_id) REFERENCES batches(id)
 );
 
 -- Bảng giao dịch

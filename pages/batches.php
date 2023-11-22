@@ -7,15 +7,11 @@
       <thead>
         <tr>
           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
-          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mã đơn hàng</th>
+          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mã lô hàng</th>
           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Nhà cung cấp</th>
           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Khu vực lưu trữ</th>
-          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ngày sản xuất</th>
-          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ngày hết hạn</th>
-          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Số lượng sản phẩm</th>
           <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Trạng thái</th>
-          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ghi chú</th>
-          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Thời gian tạo</th>
+          <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Chức năng</th>
         </tr>
       </thead>
       <tbody>
@@ -36,21 +32,29 @@
             1
           </td>
           <td class="align-middle">
-            1
-          </td>
-          <td class="align-middle">
-            1
-          </td>
-          <td class="align-middle">
-            1
-          </td>
-          <td class="align-middle">
-            1
-          </td>
-          <td class="align-middle">
-            1
+            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editBatche"
+              data-value='<?= json_encode($batche) ?>'>
+              <i class="ni ni-settings"></i>
+            </button>
+            <button type="button" class="btn bg-gradient-success btn-sm" data-bs-toggle="modal"
+              data-bs-target="#batcheDetail">
+              <i class="fa fa-info"></i>
+            </button>
+            <a onclick="return confirm('Bạn có xác nhận xóa ?');" class="btn btn-danger btn-sm"
+              href="?act=batches&delBatche&id=<?= $id ?>"><i class="fa fa-trash"></i></a>
           </td>
       </tbody>
     </table>
   </div>
 </div>
+<!--------Chi tiết lô hàng----------->
+
+<?php include_once 'modals/batcheDetail.php' ?>
+
+<!--------Thêm lô hàng----------->
+
+<?php include_once 'modals/addBatche.php' ?>
+
+<!--------Sửa lô hàng----------->
+
+<?php include_once 'modals/editBatche.php' ?>

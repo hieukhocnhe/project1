@@ -88,6 +88,15 @@
                     case 'batches':
                         include '../pages/batches.php';
                         break;
+                    case 'batche_detail':
+                        include '/modals/batcheDetail.php';
+                        break;
+                    case 'editBatche':
+                        include '../pages/batches.php';
+                        break;
+                    case 'delBatche':
+                        include '../pages/batches.php';
+                        break;
                     case 'returns':
                         include '../pages/returns.php';
                         break;
@@ -307,7 +316,14 @@
     <!-- Github buttons -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-    <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    <script src="../assets/js/argon-dashboard.min.js"></script>
+    <script src="../assets/js/core/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/argon-dashboard.js"></script>
+    <script src="../assets/js/argon-dashboard.js.map"></script>
+    <script src="../assets/js/argon-dashboard.min.js"></script>
+
     <script>
         // Lấy tất cả các liên kết trong menu
         var menuLinks = document.querySelectorAll('.nav-link');
