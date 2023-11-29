@@ -1,3 +1,15 @@
+<?php
+
+
+// Include
+include '../model/pdo.php';
+include '../model/account.php';
+include '../model/supplier.php';
+include '../model/batche.php';
+include '../model/product.php';
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,7 +33,7 @@
     <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
 </head>
 
-<body class="g-sidenav-show   bg-gray-100">
+<body class="g-sidenav-show bg-gray-100">
     <div class="min-height-300 bg-primary position-absolute w-100"></div>
     <?php include 'layouts/sidebar.php' ?>
     <main class="main-content position-relative border-radius-lg ">
@@ -30,17 +42,47 @@
         <!-- End Navbar -->
         <div class="container-fluid py-4">
             <?php
-            // Include
-            
-            include '../model/pdo.php';
-            include '../model/supplier.php';
-
-
-
             if (isset($_GET['act']) && $_GET['act'] !== '') {
                 switch ($_GET['act']) {
                     case 'dashboard':
                         include 'dashboard.php';
+                        break;
+                    case 'accounts';
+                        $accounts = getAllAccounts();
+                        $positions = getPositions();
+                        include '../pages/accounts.php';
+                        break;
+                    case 'addAccount':
+                        if (isset($_POST['addAccount'])) {
+                            $username = $_POST['username'];
+                            $password = hashPassword($_POST['password']);
+                            $fullname = $_POST['fullname'];
+                            $email = $_POST['email'];
+                            $address = $_POST['address'];
+                            $tel = $_POST['tel'];
+                            $bio = $_POST['bio'];
+                            $position_id = $_POST['position_id'];
+                        }
+                        insertAccount($username, $password, $fullname, $email, $address, $tel, $bio, $position_id);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=accounts">';
+                        break;
+                    case 'editAccount':
+                        if (isset($_POST['editAccount'])) {
+                            $id = $_POST['edit_id'];
+                            $username = $_POST['edit_username'];
+                            $fullname = $_POST['edit_fullname'];
+                            $email = $_POST['edit_email'];
+                            $address = $_POST['edit_address'];
+                            $tel = $_POST['edit_tel'];
+                            $bio = $_POST['bio'];
+                            $position_id = $_POST['position_id'];
+                        }
+                        editAccount($id, $username, $fullname, $email, $address, $tel, $bio, $position_id);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=accounts">';
+                        break;
+                    case 'delAccount':
+                        deleteAccount($_GET['id']);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=accounts">';
                         break;
                     case 'suppliers':
                         $suppliers = getAllSuppliers();
@@ -51,10 +93,12 @@
                             $name = $_POST['name'];
                             $contact_person = $_POST['contact_person'];
                             $contact_number = $_POST['contact_number'];
-                            $file = $_FILES['logo'];
-                            $logo = $file['name'];
+                            if ($_FILES['logo']['name'] != "") {
+                                $path = '../assets/img/suppliers/';
+                                $logo = $_FILES['logo']['name'];
+                                move_uploaded_file($_FILES['logo']['tmp_name'], $path . $logo);
+                            }
                             insertSupplier($name, $logo, $contact_person, $contact_number);
-                            move_uploaded_file($file['tmp_name'], '../assets/img/suppliers' . $logo);
                         }
                         echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
                         break;
@@ -79,17 +123,14 @@
                         deleteSupplier($_GET['id']);
                         echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
                         break;
-                    case 'products':
-                        include '../pages/products.php';
-                        break;
-                    case 'invoices':
-                        include '../pages/invoices.php';
-                        break;
                     case 'batches':
-                        include '../pages/batches.php';
+                        $statuses = getAllBatchStatuses();
+                        $batches = getAllBatches();
+                        include '../pages/batche/batches.php';
                         break;
-                    case 'batche_detail':
-                        include '/modals/batcheDetail.php';
+                    case 'batcheDetail':
+                        $batch_detail = getAllProductByBatcheId($_GET['id']);
+                        include '../pages/batche/batcheDetail.php';
                         break;
                     case 'editBatche':
                         include '../pages/batches.php';
@@ -97,8 +138,12 @@
                     case 'delBatche':
                         include '../pages/batches.php';
                         break;
-                    case 'returns':
-                        include '../pages/returns.php';
+                    case 'products':
+                        $products = getAllProducts();
+                        include '../pages/products.php';
+                        break;
+                    case 'invoices':
+                        include '../pages/invoices.php';
                         break;
                     case 'inventories':
                         include '../pages/inventories.php';
@@ -108,6 +153,9 @@
                         break;
                     case 'transactions':
                         include '../pages/transactions.php';
+                        break;
+                    case 'returns':
+                        include '../pages/returns.php';
                         break;
                     case 'profile':
                         include '../pages/profile.php';

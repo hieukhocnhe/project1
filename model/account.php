@@ -21,8 +21,10 @@ function verifyPassword($password, $hashedPassword)
 function getAllAccounts()
 {
     try {
-        $sql = "SELECT a.id, a.username, a.fullname, a.avatar, a.email, a.address, a.tel, a.introduce, a.status, p.position_id 
-        FROM accounts a INNER JOIN positions p ON a.position_id = p.id ORDER BY a.id DESC;";
+        $sql = "SELECT a.id AS id, a.username AS username, a.fullname AS fullname,
+        a.email AS email, a.address AS address, a.tel AS tel, a.bio AS bio, a.status AS status,
+        a.position_id AS position_id, p.position_name AS position_name
+        FROM accounts a INNER JOIN positions p ON a.position_id = p.id ORDER BY a.id ASC;";
         return pdo_query($sql);
     } catch (Exception $e) {
         echo $e->getMessage();
@@ -112,52 +114,52 @@ function changePassword($id, $old_password, $new_password)
 }
 
 
-// function insertAccount($username, $password, $fullname, $avatar, $email, $address, $tel, $role_id)
-// {
-//     if (isset($_POST['btn_add'])) {
-//         try {
-//             $sql2 = "INSERT INTO accounts (username, password, fullname, avatar, email, address, tel, role_id)
-//             VALUES ('$username', '$password', '$fullname', '$avatar', '$email', '$address', '$tel', $role_id);";
-//             pdo_execute($sql2);
-//         } catch (Exception $e) {
-//             echo $e->getMessage();
-//         }
-//     }
-// }
-// function editAccount($id, $fullname, $avatar, $email, $address, $tel)
-// {
-//     try {
-//         $sql = "UPDATE
-//         accounts
-//         SET fullname = '$fullname',
-//         avatar = '$avatar',
-//         email = '$email',
-//         address = '$address',
-//         tel = '$tel'
-//         WHERE id = $id";
-
-//         pdo_execute($sql);
-//     } catch (Exception $e) {
-//         echo $e->getMessage();
-//     }
-// }
-
-function getPositions()
+function insertAccount($username, $password, $fullname, $email, $address, $tel, $bio, $position_id)
 {
     try {
-        $sql1 = "SELECT * FROM positions";
-        return pdo_query($sql1);
+        $sql = "INSERT INTO accounts (username, password, fullname, email, address, tel, bio, position_id) 
+            VALUES ('$username', '$password', '$fullname', '$email', '$address', '$tel', '$bio', '$position_id');";
+        pdo_execute($sql);
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+function editAccount($id, $username, $fullname, $email, $address, $tel, $bio, $position_id)
+{
+    try {
+        $sql = "UPDATE
+        accounts
+        SET 
+        username = '$username',
+        fullname = '$fullname',
+        email = '$email',
+        address = '$address',
+        tel = '$tel',
+        bio = '$bio',
+        position_id = '$position_id'
+        WHERE id = '$id'";
+        pdo_execute($sql);
     } catch (Exception $e) {
         echo $e->getMessage();
     }
 }
+
 
 function deleteAccount($id)
 {
     try {
         $sql = "DELETE FROM accounts WHERE id = $id";
         pdo_execute($sql);
-        header('location: ?act=tables&data=accounts');
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+function getPositions()
+{
+    try {
+        $sql = "SELECT * FROM positions";
+        return pdo_query($sql);
     } catch (Exception $e) {
         echo $e->getMessage();
     }

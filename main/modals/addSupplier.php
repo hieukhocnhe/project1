@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="?act=suppliers&addSupplier" method="post" enctype="multipart/form-data">
+            <form action="?act=addSupplier" method="post" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="row justify-content-center align-items-center h-100 my-5 p-3">
                         <div class="col-12">

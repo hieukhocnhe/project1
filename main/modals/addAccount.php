@@ -1,11 +1,10 @@
 <!-- Modal -->
-
-<div class="modal fade" id="addBatche" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div class="modal fade" id="addAccount" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Thêm lô hàng</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Thêm tài khoản</h5>
                 <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -17,15 +16,15 @@
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        <label class="form-label" for="batche_code">Mã lô hàng</label>
-                                        <input type="text" name="batche_code" id="batche_code"
+                                        <label class="form-label" for="username">Tên đăng nhập</label>
+                                        <input type="text" name="username" id="username"
                                             class="form-control form-control-sm" />
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        <label class="form-label" for="supplier_id">Nhà cung cấp</label>
-                                        <input type="text" name="supplier_id" id="supplier_id"
+                                        <label class="form-label" for="password">Mật khẩu</label>
+                                        <input type="password" name="password" id="password"
                                             class="form-control form-control-sm" />
                                     </div>
                                 </div>
@@ -33,51 +32,51 @@
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        <label class="form-label" for="storage_area_id">Khu vực lưu trữ</label>
-                                        <input type="text" name="storage_area_id" id="storage_area_id"
+                                        <label class="form-label" for="fullname">Họ và tên</label>
+                                        <input type="text" name="fullname" id="fullname"
                                             class="form-control form-control-sm" />
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        <label class="form-label" for="quantity">Số lượng</label>
-                                        <input type="number" name="quantity" id="quantity"
-                                            class="form-control form-control-sm" />
+                                        <label class="form-label" for="tel">Số điện thoại</label>
+                                        <input type="text" name="tel" id="tel" class="form-control form-control-sm" />
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 mb-4 pb-2">
+                                <div class="col-12">
                                     <div class="form-outline">
-                                        <label class="form-label" for="production_date">Ngày sản xuất</label>
-                                        <input type="date" name="production_date" id="production_date"
+                                        <label class="form-label" for="email">Email</label>
+                                        <input type="email" name="email" id="email"
                                             class="form-control form-control-sm" />
                                     </div>
                                 </div>
-                                <div class="col-md-6 mb-4 pb-2">
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 mb-4 pb-2">
                                     <div class="form-group">
-                                        <label for="manufacturing_date">Ngày hết hạn</label>
-                                        <input type="date" name="manufacturing_date" id="manufacturing_date"
-                                            class="form-control form-control-sm" />
+                                        <label for="address">Địa chỉ</label>
+                                        <textarea class="form-control form-control-sm" name="address" id="address" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 mb-4 pb-2">
+                                    <div class="form-group">
+                                        <label for="bio">Mô tả</label>
+                                        <textarea class="form-control form-control-sm" name="bio" id="bio" value=""
+                                            rows="3"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6 mb-4 pb-2">
-                                    <div class="form-group">
-                                        <label for="created_at">Ngày tạo</label>
-                                        <input type="date" name="created_at" id="created_at"
-                                            class="form-control form-control-sm" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-4 pb-2">
-                                    <label for="status_id">Trạng thái</label>
-                                    <select class="form-control form-control-sm" name="status_id">
-                                        <?php
-                                        foreach ($statuses as $status):
-                                            extract($status) ?>
-                                            <option value="<?= $id ?>">
-                                                <?= $name ?>
+                                <div class="col-md-12 mb-4 pb-2">
+                                    <label for="position">Vai trò</label>
+                                    <select class="form-control form-control-sm" name="position_id">
+                                        <?php foreach ($positions as $key => $value):
+                                             ?>
+                                            <option value="<?= $value['id'] ?>">
+                                                <?= $value['position_name'] ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>

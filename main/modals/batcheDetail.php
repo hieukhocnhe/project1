@@ -11,7 +11,6 @@
                     <table class="table align-items-center mb-0 text-center">
                         <thead>
                             <tr>
-                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">ID lô
                                     hàng</th>
                                 <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
@@ -25,25 +24,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td class="align-middle">
-                                    1
-                                </td>
-                                <td class="align-middle">
-                                    1
-                                </td>
-                                <td class="align-middle">
-                                    1
-                                </td>
-                                <td class="align-middle">
-                                    1
-                                </td>
-                                <td class="align-middle">
-                                    1
-                                </td>
-                                <td class="align-middle">
-                                    1
-                                </td>
+                            <?php foreach ($batche_detail as $key => $value): ?>
+                                <tr>
+                                    <td class="align-middle">
+                                        <?= $value['id'] ?>
+                                    </td>
+                                    <td class="align-middle">
+                                        <?= $value['manufacturing_date'] ?>
+                                    </td>
+                                    <td class="align-middle">
+                                        <?= $value['expiry_date'] ?>
+                                    </td>
+                                    <td class="align-middle">
+                                        <?= $value['quantity'] ?>
+                                    </td>
+                                    <td class="align-middle">
+                                        <?= $value['created_at'] ?>
+                                    </td>
+                                <?php endforeach ?>
                         </tbody>
                     </table>
                 </div>

@@ -48,7 +48,7 @@
                                                     </button>
                                                     <a onclick="return confirm('Bạn có xác nhận xóa ?');"
                                                         class="btn btn-danger btn-sm mx-4"
-                                                        href="?act=suppliers&delSupplier&id=<?= $id ?>"><i
+                                                        href="?act=delSupplier&id=<?= $id ?>"><i
                                                             class="fa fa-trash"></i></a>
                                                 </div>
                                             </div>
