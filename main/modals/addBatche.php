@@ -82,6 +82,20 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
+                                <div class="form-outline">
+                                    <a href="../assets/public/products_partten.xlsx"
+                                        class="btn btn-sm btn-sm btn-success mb-3">
+                                        <i class="fa-regular"></i>
+                                        File mẫu
+                                    </a>
+                                </div>
+                                <div class="md-6 mb-4 pb-2">
+                                    <div class="form-outline">
+                                        <label class="form-label" for="products">Tải lên file</label>
+                                        <input type="file" id="products" name="products"
+                                            class="form-control form-control-sm" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

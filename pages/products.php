@@ -2,6 +2,10 @@
   <div class="card-header pb-0 text-center m-4">
     <h3>Danh sách sản phẩm</h3>
   </div>
+  <div class="col mx-4 mb-4">
+    <button class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#addProduct">Thêm
+      sản phẩm</button>
+  </div>
   <div class="card-body px-0 pt-0 pb-2">
     <div class="table-responsive p-0">
       <table class="table align-items-center mb-0 text-center">
@@ -78,7 +82,7 @@
                   <i class="ni ni-settings"></i>
                 </button>
                 <a onclick="return confirm('Bạn có xác nhận xóa ?');" class="btn btn-danger btn-sm"
-                  href="?act=batches&delProduct&id=<?= $id ?>"><i class="fa fa-trash"></i></a>
+                  href="?act=delProduct&id=<?= $id ?>"><i class="fa fa-trash"></i></a>
               </td>
             </tr>
           <?php endforeach ?>

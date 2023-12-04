@@ -132,15 +132,55 @@ include '../model/product.php';
                         $batch_detail = getAllProductByBatcheId($_GET['id']);
                         include '../pages/batche/batcheDetail.php';
                         break;
+                    case 'addBatche':
+                        if (isset($_POST['addBatche'])) {
+
+                            // Thêm một lô hàng
+                            $batche_code = $_POST['batche_code'];
+                            $supplier_id = $_POST['supplier_id'];
+                            $storage_area_id = $_POST['storage_area_id'];
+                            $manufacturing_date = $_POST['manufacturing_date'];
+                            $expiry_date = $_POST['expiry_date'];
+                            $status_id = $_POST['status_id'];
+
+                            addBatche($batche_code, $supplier_id, $storage_area_id, $manufacturing_date, $expiry_date, $status_id);
+
+                            // Xử lý thêm sản phẩm từ file ở đây
+                            $file = $_FILES['products'];
+                            $file_name = $file['name'];
+                            $tmp_file = $file['tmp_name'];
+                            $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+                            $upload_directory = '../assets/public/product_upload/';
+                            if ($extension == 'xlsx') {
+                                if (move_uploaded_file($tmp_file, $upload_directory . $file_name)) {
+                                    echo "Upload file thành công";
+                                } else {
+                                    echo "Lỗi trong quá trình upload file";
+                                }
+                            } else {
+                                echo "File không đúng định dạng";
+                            }
+                            $products = readDataFromExcelBySheetName($upload_directory . $file_name, 'products');
+                            foreach ($products as $product) {
+                                if ($product['A'] !== 'name') {
+                                    addBatchDetail($batch_id, $product['A']);
+                                }
+                            }
+                        }
+                        break;
                     case 'editBatche':
-                        include '../pages/batches.php';
                         break;
                     case 'delBatche':
-                        include '../pages/batches.php';
+                        deleteBatche($_GET['id']);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=batches">';
                         break;
                     case 'products':
                         $products = getAllProducts();
                         include '../pages/products.php';
+                        break;
+                    case 'delProduct':
+                        delProduct($_GET['id']);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=products">';
                         break;
                     case 'invoices':
                         include '../pages/invoices.php';

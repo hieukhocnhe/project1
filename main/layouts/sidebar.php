@@ -57,12 +57,12 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="?act=invoices">
+                <a class="nav-link " href="?act=transactions">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
+                        <i class="ni ni-collection text-info text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Hóa đơn</span>
+                    <span class="nav-link-text ms-1">Giao dịch</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -84,12 +84,12 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link " href="?act=transactions">
+                <a class="nav-link " href="?act=invoices">
                     <div
                         class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="ni ni-collection text-info text-sm opacity-10"></i>
+                        <i class="ni ni-credit-card text-success text-sm opacity-10"></i>
                     </div>
-                    <span class="nav-link-text ms-1">Giao dịch</span>
+                    <span class="nav-link-text ms-1">Hóa đơn</span>
                 </a>
             </li>
             <li class="nav-item">

@@ -96,47 +96,6 @@ FROM (
 -- Xem các bản ghi được tạo
 SELECT * FROM storage_areas;
 
-
--- Bảng sản phẩm
-CREATE TABLE products (
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    price INT(11) NOT NULL,
-    image VARCHAR(255) NULL,
-    quantity_in_stock INT(11),
-    quantity_in_batch INT(11) NOT NULL DEFAULT 0
-    batch_id INT(11),  -- Thêm trường batch_id vào bảng products
-    FOREIGN KEY (batch_id) REFERENCES batches(id)  -- Khóa ngoại tham chiếu đến bảng batches
-);
-
-
--- Faker data cho bảng products với trường batched_id random từ 
-INSERT INTO products (
-    name,
-    price,
-    image,
-    quantity_in_stock,
-    quantity_in_batch
-)
-SELECT
-    CONCAT('Product ', FLOOR(RAND() * 1000)),
-    -- Tên sản phẩm giả mạo
-    FLOOR(RAND() * 100),
-    -- Giá giả mạo
-    CONCAT('image_', FLOOR(RAND() * 10), '.jpg'),
-    -- Đường dẫn ảnh giả mạo
-    FLOOR(RAND() * 1000),
-    -- Số lượng trong kho giả mạo
-    FLOOR(RAND() * (200 - 1 + 1) + 1) -- batched_id random từ 
-FROM (
-    SELECT @n := @n + 1 AS n
-    FROM information_schema.tables,
-    (SELECT @n := 0) AS X
-    LIMIT 200 -- Số lượng sản phẩm bạn muốn tạo
-) AS numbers;
-
-
-
 -- Bảng lô hàng
 CREATE TABLE batches (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -145,7 +104,6 @@ CREATE TABLE batches (
     storage_area_id INT(11),
     manufacturing_date DATE NOT NULL,
     expiry_date DATE NOT NULL,
-    quantity INT(11) NOT NULL,
     status_id INT(11) NOT NULL,
     created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (supplier_id) REFERENCES suppliers(id),
@@ -168,6 +126,49 @@ FROM (
     FROM information_schema.tables, (SELECT @n := 0) AS x
     LIMIT 100 -- Số lượng batches bạn muốn tạo
 ) AS numbers;
+
+
+-- Bảng sản phẩm
+CREATE TABLE products (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    price INT(11) NOT NULL,
+    image VARCHAR(255) NULL,
+    quantity_in_stock INT(11),
+    quantity_in_batch INT(11) NOT NULL DEFAULT 0,
+    batch_id INT(11),  -- Thêm trường batch_id vào bảng products
+    FOREIGN KEY (batch_id) REFERENCES batches(id)  -- Khóa ngoại tham chiếu đến bảng batches
+);
+
+
+-- Faker data cho bảng products với trường batched_id random từ 
+INSERT INTO products (
+    name,
+    price,
+    image,
+    quantity_in_stock,
+    quantity_in_batch,
+    batch_id
+)
+SELECT
+    CONCAT('Product ', FLOOR(RAND() * 1000)),
+    -- Tên sản phẩm giả mạo
+    FLOOR(RAND() * 100),
+    -- Giá giả mạo
+    CONCAT('image_', FLOOR(RAND() * 10), '.jpg'),
+    -- Đường dẫn ảnh giả mạo
+    FLOOR(RAND() * 1000),
+    -- Số lượng trong kho giả mạo
+    FLOOR(RAND() * 1000),
+    -- Số lượng trong lô hàng giả mạo
+    FLOOR(RAND() * (100 - 1 + 1) + 1) -- batched_id random từ 
+FROM (
+    SELECT @n := @n + 1 AS n
+    FROM information_schema.tables,
+    (SELECT @n := 0) AS X
+    LIMIT 200 -- Số lượng sản phẩm bạn muốn tạo
+) AS numbers;
+
 
 
 -- Bảng chi tiết lô hàng - sản phẩm
@@ -236,18 +237,40 @@ FROM (
 -- Xem các bản ghi được tạo
 SELECT * FROM accounts;
 
+-- Bảng loại giao dịch
+CREATE TABLE transaction_type (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT NULL
+);
+
+-- Insert dữ liệu giả cho bảng transaction_type
+INSERT INTO transaction_types (name, description, created_at, updated_at) VALUES
+    ('Nhập kho', 'Giao dịch nhập sản phẩm vào kho', NOW(), NOW()),
+    ('Xuất kho', 'Giao dịch xuất sản phẩm từ kho', NOW(), NOW()),
+    ('Đổi trả', 'Giao dịch đổi trả sản phẩm', NOW(), NOW()),
+    ('Kiểm kê', 'Giao dịch kiểm kê tồn kho', NOW(), NOW());
+
 
 -- Bảng giao dịch
 CREATE TABLE transactions (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    product_id INT(11),
+    product_id INT(11) NOT NULL,
     transaction_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    transaction_type TINYINT(1) NOT NULL,
+    transaction_type_id INT(11) NOT NULL,
     quantity_changed INT(11) NOT NULL,
     storage_area_id INT(11) NOT NULL,
+    account_id INT(11),
+    status VARCHAR(50), 
+    previous_quantity INT(11),
     FOREIGN KEY (product_id) REFERENCES products(id),
-    FOREIGN KEY (storage_area_id) REFERENCES storage_areas(id)
+    FOREIGN KEY (transaction_type_id) REFERENCES transaction_types(id),
+    FOREIGN KEY (storage_area_id) REFERENCES storage_areas(id),
+    FOREIGN KEY (account_id) REFERENCES accounts(id)
 );
+
 
 -- Bảng hóa đơn
 CREATE TABLE invoices (

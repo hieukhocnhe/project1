@@ -58,7 +58,39 @@ function generateRandomString($length = 6)
     }
 }
 
+function addBatche($batche_code, $supplier_id, $storage_area_id, $manufacturing_date, $expiry_date, $status_id)
+{
+    try {
+        $batche_code = generateRandomString();
+        $sql = "INSERT INTO batches (batche_code, supplier_id, storage_area_id, manufacturing_date, expiry_date, status_id)
+        VALUES ('$batche_code', $supplier_id, $storage_area_id, '$manufacturing_date', '$expiry_date', $status_id)";
+        return pdo_execute($sql);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
 
+function addBatchDetail($batch_id, $name)
+{
+    try {
+        $product_id = getProductByName($name)['id'];
+        $sql = "INSERT INTO batch_products (batch_id, product_id) 
+                VALUES ('$batch_id', '$product_id');";
+        return pdo_execute($sql);
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+function deleteBatche($id)
+{
+    try {
+        $sql = "DELETE FROM batches WHERE id = $id";
+        pdo_execute($sql);
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+}
 
 
 
