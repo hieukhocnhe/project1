@@ -15,14 +15,7 @@
                     <div class="row justify-content-center align-items-center h-100 my-5 p-3">
                         <div class="col-12">
                             <div class="row">
-                                <div class="col-md-6 mb-4">
-                                    <div class="form-outline">
-                                        <label class="form-label" for="batche_code">Mã lô hàng</label>
-                                        <input type="text" name="batche_code" id="batche_code"
-                                            class="form-control form-control-sm" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-4">
+                                <div class="col-12 mb-4">
                                     <div class="form-outline">
                                         <label class="form-label" for="supplier_id">Nhà cung cấp</label>
                                         <input type="text" name="supplier_id" id="supplier_id"

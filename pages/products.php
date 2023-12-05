@@ -16,8 +16,8 @@
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Giá</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ảnh</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mã lô hàng</th>
-            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-              Số lượng tồn kho</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Số lượng</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Đơn vị tính</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ngày sản xuất</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Hạn sử dụng</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Chức năng</th>
@@ -37,48 +37,47 @@
                 <?= $price ?>
               </td>
               <td class="align-middle">
-                <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm rounded-circle me-2">
+                <img src="../assets/img/products/<?= $image ?>" class="avatar avatar-sm rounded-circle me-2">
               </td>
               <td class="align-middle">
                 <?= $batche_code ?>
               </td>
               <td class="align-middle">
-                <div class="d-flex align-items-center justify-content-center">
-                  <span class="me-2 text-xs font-weight-bold">
-                    <?= $quantity_in_stock ?>
-                  </span>
-                  <div>
-                    <?php
-                    $Class = '';
-
-                    if ($quantity_in_stock < 50) {
-                      $Class = "progress-bar bg-gradient-danger";
-                    } elseif ($quantity_in_stock < 100) {
-                      $Class = "progress-bar bg-gradient-warning";
-                    } elseif ($quantity_in_stock >= 80) {
-                      $Class = "progress-bar bg-gradient-success";
-                    } else {
-                      $Class = "badge badge-sm bg-gradient-info";
-                    }
-                    ?>
-
-                    <div class="progress">
-                      <div class="<?= $Class ?>" role="progressbar" aria-valuenow="<?= $quantity_in_stock ?>"
-                        aria-valuemin="0" aria-valuemax="100" style="width: <?= $quantity_in_stock ?>%;"></div>
-                    </div>
-                  </div>
-
-                </div>
+                <?= $quantity_in_stock ?>
               </td>
               <td class="align-middle">
-                <?= $manufacturing_date ?>
+                <?= $unit ?>
+              </td>
+              <?php
+              $manufacturingDateFromProduct = $product['manufacturing_date'];
+              $manufacturingDateFromBatch = $product['manufacturing_date_from_batche'];
+              $expiryDateFromProduct = $product['expiry_date'];
+              $expiryDateFromBatch = $product['expiry_date_from_batche'];
+
+              if ($product['batch_id'] === null) {
+                // Hiển thị ngày sản xuất từ sản phẩm
+                $manufacturingDateToShow = $manufacturingDateFromProduct;
+              } else {
+                // Hiển thị ngày sản xuất từ lô hàng
+                $manufacturingDateToShow = $manufacturingDateFromBatch;
+              }
+              if ($product['batch_id'] === null) {
+                // Hiển thị ngày sản xuất từ sản phẩm
+                $expiryDateToShow = $expiryDateFromProduct;
+              } else {
+                // Hiển thị ngày sản xuất từ lô hàng
+                $expiryDateToShow = $expiryDateFromBatch;
+              }
+              ?>
+              <td class="align-middle">
+                <?= $manufacturingDateToShow ?>
               </td>
               <td class="align-middle">
-                <?= $expiry_date ?>
+                <?= $expiryDateToShow ?>
               </td>
               <td class="align-middle pt-4">
                 <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editProduct"
-                  data-value='<?= json_encode($batche) ?>'>
+                  data-value='<?= json_encode($product) ?>'>
                   <i class="ni ni-settings"></i>
                 </button>
                 <a onclick="return confirm('Bạn có xác nhận xóa ?');" class="btn btn-danger btn-sm"
@@ -91,3 +90,11 @@
     </div>
   </div>
 </div>
+
+<!--------Thêm sản phẩm----------->
+
+<?php include_once 'modals/addProduct.php' ?>
+
+<!--------Sửa sản phẩm----------->
+
+<?php include_once 'modals/editProduct.php' ?>

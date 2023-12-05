@@ -357,3 +357,29 @@
         </div>
     </div>
 </div>
+<div class="d-flex align-items-center justify-content-center">
+    <span class="me-2 text-xs font-weight-bold">
+        <?= $quantity_in_stock ?>
+    </span>
+    <div>
+        <?php
+        $Class = '';
+
+        if ($quantity_in_stock < 50) {
+            $Class = "progress-bar bg-gradient-danger";
+        } elseif ($quantity_in_stock < 100) {
+            $Class = "progress-bar bg-gradient-warning";
+        } elseif ($quantity_in_stock >= 80) {
+            $Class = "progress-bar bg-gradient-success";
+        } else {
+            $Class = "badge badge-sm bg-gradient-info";
+        }
+        ?>
+
+        <div class="progress">
+            <div class="<?= $Class ?>" role="progressbar" aria-valuenow="<?= $quantity_in_stock ?>" aria-valuemin="0"
+                aria-valuemax="100" style="width: <?= $quantity_in_stock ?>%;"></div>
+        </div>
+    </div>
+
+</div>

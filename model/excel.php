@@ -13,7 +13,7 @@ function writeStudentsToExcel($products, $filename)
         $worksheet = $objPHPExcel->getActiveSheet();
 
         // khai báo tiêu đề cho các cột
-        $headers = array('ID', 'Name','Price','Quantity_In_Stock','Quantity_In_Batch');
+        $headers = array('ID', 'Name','Price','Quantity_In_Stock','Quantity_In_Batch', 'Manufaturing_Date','Expiry_Date', 'Unit');
         $col = 0;
         foreach ($headers as $header) {
             $worksheet->setCellValueByColumnAndRow($col, 1, $header);
@@ -33,6 +33,12 @@ function writeStudentsToExcel($products, $filename)
             $worksheet->setCellValueByColumnAndRow($col, $row, $product['quantity_in_stock']);
             $col++;
             $worksheet->setCellValueByColumnAndRow($col, $row, $product['quantity_in_batch']);
+            $col++;
+            $worksheet->setCellValueByColumnAndRow($col, $row, $product['manufacturing_date']);
+            $col++;
+            $worksheet->setCellValueByColumnAndRow($col, $row, $product['expiry_date']);
+            $col++;
+            $worksheet->setCellValueByColumnAndRow($col, $row, $product['unit']);
             $col++;
         }
 

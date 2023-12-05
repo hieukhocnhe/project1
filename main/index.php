@@ -98,8 +98,8 @@ include '../model/product.php';
                                 $logo = $_FILES['logo']['name'];
                                 move_uploaded_file($_FILES['logo']['tmp_name'], $path . $logo);
                             }
-                            insertSupplier($name, $logo, $contact_person, $contact_number);
                         }
+                        insertSupplier($name, $logo, $contact_person, $contact_number);
                         echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
                         break;
                     case 'editSupplier':
@@ -178,6 +178,44 @@ include '../model/product.php';
                         $products = getAllProducts();
                         include '../pages/products.php';
                         break;
+                    case 'addProduct':
+                        if (isset($_POST['addProduct'])) {
+                            $name = $_POST['name'];
+                            $price = $_POST['price'];
+                            $quantity_in_stock = $_POST['quantity_in_stock'];
+                            $manufacturing_date = $_POST['manufacturing_date'];
+                            $expiry_date = $_POST['expiry_date'];
+                            $unit = $_POST['unit'];
+                            if ($_FILES['image']['name'] != "") {
+                                $path = '../assets/img/products/';
+                                $image = $_FILES['image']['name'];
+                                move_uploaded_file($_FILES['image']['tmp_name'], $path . $image);
+                            }
+                        }
+                        insertProduct($name, $price, $image, $quantity_in_stock, $manufacturing_date, $expiry_date, $unit);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=products">';
+                        break;
+                    case 'editProduct':
+                        if (isset($_POST['editProduct'])) {
+                            $id = $_POST['edit_id'];
+                            $name = $_POST['edit_name'];
+                            $price = $_POST['edit_price'];
+                            $quantity_in_stock = $_POST['edit_quantity_in_stock'];
+                            $quantity_in_batch = $_POST['edit_quantity_in_batch'];
+                            $manufacturing_date = $_POST['edit_manufacturing_date'];
+                            $expiry_date = $_POST['edit_expiry_date'];
+                            $batch_id = $_POST['edit_batch_id'];
+                            if ($_FILES['edit_image']['name'] != "") {
+                                $path = '../assets/img/products/';
+                                $image = $_FILES['edit_image']['name'];
+                                move_uploaded_file($_FILES['edit_image']['tmp_name'], $path . $image);
+                            } else {
+                                $image = $_POST['edit_image'];
+                            }
+                        }
+                        editProduct($name, $price, $image, $quantity_in_stock, $quantity_in_batch, $manufacturing_date, $expiry_date, $batch_id, $id);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=products">';
+                        break;
                     case 'delProduct':
                         delProduct($_GET['id']);
                         echo '<meta http-equiv="refresh" content="0;url=?act=products">';
@@ -206,7 +244,6 @@ include '../model/product.php';
                 }
             } else {
                 include 'dashboard.php';
-
             }
             ?>
         </div>

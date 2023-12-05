@@ -23,7 +23,7 @@
                                             <div class="card">
                                                 <div class="card-header p-0 mx-3 mt-3 position-relative z-index-1">
                                                     <a href="javascript:;" class="d-block">
-                                                        <img src="./assets/img/suppliers"
+                                                        <img src="../assets/img/suppliers/<?= $logo ?>"
                                                             class="img-fluid border-radius-lg">
                                                     </a>
                                                 </div>

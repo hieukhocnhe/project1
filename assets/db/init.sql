@@ -136,32 +136,33 @@ CREATE TABLE products (
     image VARCHAR(255) NULL,
     quantity_in_stock INT(11),
     quantity_in_batch INT(11) NOT NULL DEFAULT 0,
+    manufacturing_date DATE,
+    expiry_date DATE,
     batch_id INT(11),  -- Thêm trường batch_id vào bảng products
     FOREIGN KEY (batch_id) REFERENCES batches(id)  -- Khóa ngoại tham chiếu đến bảng batches
 );
 
 
--- Faker data cho bảng products với trường batched_id random từ 
+-- Faker data cho bảng products với trường batch_id random từ 1 đến 100
 INSERT INTO products (
     name,
     price,
     image,
     quantity_in_stock,
     quantity_in_batch,
+    manufacturing_date,
+    expiry_date,
     batch_id
 )
 SELECT
     CONCAT('Product ', FLOOR(RAND() * 1000)),
-    -- Tên sản phẩm giả mạo
     FLOOR(RAND() * 100),
-    -- Giá giả mạo
     CONCAT('image_', FLOOR(RAND() * 10), '.jpg'),
-    -- Đường dẫn ảnh giả mạo
     FLOOR(RAND() * 1000),
-    -- Số lượng trong kho giả mạo
     FLOOR(RAND() * 1000),
-    -- Số lượng trong lô hàng giả mạo
-    FLOOR(RAND() * (100 - 1 + 1) + 1) -- batched_id random từ 
+    CURDATE() - INTERVAL FLOOR(RAND() * 365) DAY,  -- Ngày sản xuất giả mạo (trong vòng 1 năm trước)
+    CURDATE() + INTERVAL FLOOR(RAND() * 365) DAY,  -- Ngày hết hạn giả mạo (trong vòng 1 năm sau)
+    FLOOR(RAND() * 100) + 1  -- batch_id random từ 1 đến 100
 FROM (
     SELECT @n := @n + 1 AS n
     FROM information_schema.tables,
@@ -238,7 +239,7 @@ FROM (
 SELECT * FROM accounts;
 
 -- Bảng loại giao dịch
-CREATE TABLE transaction_type (
+CREATE TABLE transaction_types (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description TEXT,
