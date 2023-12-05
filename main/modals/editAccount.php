@@ -65,14 +65,21 @@
                                 <div class="col-md-6 mb-4 pb-2">
                                     <label for="status">Trạng thái</label>
                                     <select id="status" name="edit_status" class="select form-control form-control-sm">
-                                        <?php $statusValues = [0, 1];
-                                        foreach ($statusValues as $value): ?>
-                                            <option value="<?= $value; ?>">
-                                                <?= ($value == 0) ? 'Đã nghỉ việc' : 'Đang làm việc'; ?>
+                                        <?php
+                                        $statusOptions = [
+                                            ['value' => 0, 'label' => 'Đã nghỉ việc'],
+                                            ['value' => 1, 'label' => 'Đang làm việc']
+                                        ];
+
+                                        foreach ($statusOptions as $option):
+                                            ?>
+                                            <option value="<?= $option['value']; ?>" <?= ($option['value'] == $status) ? 'selected' : ''; ?>>
+                                                <?= $option['label']; ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
+
                                 <div class="col-md-6 mb-4 pb-2">
                                     <label class="form-label select-label" for="position">Vai trò</label>
                                     <select name="position_id" class="select form-control form-control-sm">
@@ -119,7 +126,14 @@
         tel.setAttribute('value', val.tel);
         address.value = val.address;
         bio.value = val.bio;
-        status.setAttribute('value', val.status);
+        // Duyệt qua từng option để đặt thuộc tính selected
+        status.querySelectorAll('option').forEach(option => {
+            if (option.value == val.status) {
+                option.setAttribute('selected', 'selected');
+            } else {
+                option.removeAttribute('selected');
+            }
+        });
         id.setAttribute('value', val.id);
 
         console.log(myModal);

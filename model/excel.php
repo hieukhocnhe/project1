@@ -3,7 +3,7 @@
 include './lib/PhpExcel/vendor/autoload.php';
 
 // Hàm ghi dữ liệu vào file Excel
-function writeStudentsToExcel($products, $filename)
+function writeProductsToExcel($products, $filename)
 {
     try {
         $objPHPExcel = new PHPExcel();
@@ -13,7 +13,7 @@ function writeStudentsToExcel($products, $filename)
         $worksheet = $objPHPExcel->getActiveSheet();
 
         // khai báo tiêu đề cho các cột
-        $headers = array('ID', 'Name','Price','Quantity_In_Stock','Quantity_In_Batch', 'Manufaturing_Date','Expiry_Date', 'Unit');
+        $headers = array('ID', 'Name');
         $col = 0;
         foreach ($headers as $header) {
             $worksheet->setCellValueByColumnAndRow($col, 1, $header);
@@ -27,18 +27,6 @@ function writeStudentsToExcel($products, $filename)
             $worksheet->setCellValueByColumnAndRow($col, $row, $product['id']);
             $col++;
             $worksheet->setCellValueByColumnAndRow($col, $row, $product['name']);
-            $col++;
-            $worksheet->setCellValueByColumnAndRow($col, $row, $product['price']);
-            $col++;
-            $worksheet->setCellValueByColumnAndRow($col, $row, $product['quantity_in_stock']);
-            $col++;
-            $worksheet->setCellValueByColumnAndRow($col, $row, $product['quantity_in_batch']);
-            $col++;
-            $worksheet->setCellValueByColumnAndRow($col, $row, $product['manufacturing_date']);
-            $col++;
-            $worksheet->setCellValueByColumnAndRow($col, $row, $product['expiry_date']);
-            $col++;
-            $worksheet->setCellValueByColumnAndRow($col, $row, $product['unit']);
             $col++;
         }
 

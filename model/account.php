@@ -125,22 +125,22 @@ function insertAccount($username, $password, $fullname, $email, $address, $tel, 
     }
 }
 
-function editAccount($id, $username, $fullname, $email, $address, $tel, $bio, $position_id)
+function editAccount($id, $username, $fullname, $email, $tel, $address, $bio, $status_text, $position_id)
 {
     try {
-        $sql = "UPDATE
-        accounts
-        SET 
+        $sql = "UPDATE accounts
+        SET
         username = '$username',
         fullname = '$fullname',
         email = '$email',
         address = '$address',
         tel = '$tel',
         bio = '$bio',
+        status = '$status_text',
         position_id = '$position_id'
-        WHERE id = '$id'";
+        WHERE id = $id;";
         pdo_execute($sql);
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
         echo $e->getMessage();
     }
 }

@@ -58,25 +58,43 @@ function generateRandomString($length = 6)
     }
 }
 
-function addBatche($batche_code, $supplier_id, $storage_area_id, $manufacturing_date, $expiry_date, $status_id)
+
+function getLatestBatche()
 {
     try {
-        $batche_code = generateRandomString();
-        $sql = "INSERT INTO batches (batche_code, supplier_id, storage_area_id, manufacturing_date, expiry_date, status_id)
-        VALUES ('$batche_code', $supplier_id, $storage_area_id, '$manufacturing_date', '$expiry_date', $status_id)";
-        return pdo_execute($sql);
+        $sql = "SELECT * FROM batches ORDER BY id DESC LIMIT 1;";
+        return pdo_query_one($sql);
     } catch (Exception $e) {
         echo $e->getMessage();
     }
 }
 
+
+// Hàm thêm lô hàng và trả về thông tin về lô hàng vừa thêm
+function insertBatche($batche_code, $supplier_id, $storage_area_id, $manufacturing_date, $expiry_date, $created_at, $status_id)
+{
+    try {
+        $batche_code = generateRandomString();
+        $sql = "INSERT INTO batches (batche_code, supplier_id, storage_area_id, manufacturing_date, expiry_date, created_at, status_id)
+        VALUES ('$batche_code', $supplier_id, $storage_area_id, '$manufacturing_date', '$expiry_date', '$created_at', $status_id)";
+        pdo_execute($sql);
+
+        // Lấy thông tin về lô hàng vừa thêm và trả về
+        return getLatestBatche();
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+
+// Hàm thêm chi tiết lô hàng
 function addBatchDetail($batch_id, $name)
 {
     try {
         $product_id = getProductByName($name)['id'];
         $sql = "INSERT INTO batch_products (batch_id, product_id) 
                 VALUES ('$batch_id', '$product_id');";
-        return pdo_execute($sql);
+        pdo_execute($sql);
     } catch (Exception $e) {
         echo $e->getMessage();
     }

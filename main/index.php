@@ -7,6 +7,9 @@ include '../model/account.php';
 include '../model/supplier.php';
 include '../model/batche.php';
 include '../model/product.php';
+include '../model/excel.php';
+require '../lib/PhpExcel/vendor/autoload.php';
+
 
 ?>
 
@@ -74,10 +77,12 @@ include '../model/product.php';
                             $email = $_POST['edit_email'];
                             $address = $_POST['edit_address'];
                             $tel = $_POST['edit_tel'];
-                            $bio = $_POST['bio'];
+                            $bio = $_POST['edit_bio'];
                             $position_id = $_POST['position_id'];
+                            $status = $_POST['edit_status'];
+                            $status_text = ($status == 0) ? 'Đã nghỉ việc' : 'Đang làm việc';
                         }
-                        editAccount($id, $username, $fullname, $email, $address, $tel, $bio, $position_id);
+                        editAccount($id, $username, $fullname, $email, $tel, $address, $bio, $status_text, $position_id);
                         echo '<meta http-equiv="refresh" content="0;url=?act=accounts">';
                         break;
                     case 'delAccount':
@@ -143,7 +148,7 @@ include '../model/product.php';
                             $expiry_date = $_POST['expiry_date'];
                             $status_id = $_POST['status_id'];
 
-                            addBatche($batche_code, $supplier_id, $storage_area_id, $manufacturing_date, $expiry_date, $status_id);
+                            insertBatche($batche_code, $supplier_id, $storage_area_id, $manufacturing_date, $expiry_date, $created_at, $status_id);
 
                             // Xử lý thêm sản phẩm từ file ở đây
                             $file = $_FILES['products'];
@@ -167,8 +172,49 @@ include '../model/product.php';
                                 }
                             }
                         }
+                        echo '<meta http-equiv="refresh" content="0;url=?act=batches">';
                         break;
                     case 'editBatche':
+                        if (isset($_POST['editBatche'])) {
+
+                            // Thêm một lô hàng
+                            $batche_code = $_POST['edit_batche_code'];
+                            $supplier_id = $_POST['edit_supplier_id'];
+                            $storage_area_id = $_POST['edit_storage_area_id'];
+                            $manufacturing_date = $_POST['edit_manufacturing_date'];
+                            $expiry_date = $_POST['edit_expiry_date'];
+                            $created_at = $_POST['edit_created_at'];
+                            $status_id = $_POST['edit_status_id'];
+                            
+                            $dateTime = new DateTime($created_at);
+                            $created_at = $dateTime->format('Y-m-d H:i:s');
+                            
+
+                            insertBatche($batche_code, $supplier_id, $storage_area_id, $manufacturing_date, $expiry_date, $created_at, $status_id);
+
+                            // Xử lý thêm sản phẩm từ file ở đây
+                            $file = $_FILES['products'];
+                            $file_name = $file['name'];
+                            $tmp_file = $file['tmp_name'];
+                            $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+                            $upload_directory = '../assets/public/product_upload/';
+                            if ($extension == 'xlsx') {
+                                if (move_uploaded_file($tmp_file, $upload_directory . $file_name)) {
+                                    echo "Upload file thành công";
+                                } else {
+                                    echo "Lỗi trong quá trình upload file";
+                                }
+                            } else {
+                                echo "File không đúng định dạng";
+                            }
+                            $products = readDataFromExcelBySheetName($upload_directory . $file_name, 'products');
+                            foreach ($products as $product) {
+                                if ($product['A'] !== 'name') {
+                                    addBatchDetail($batch_id, $product['A']);
+                                }
+                            }
+                        }
+                        // echo '<meta http-equiv="refresh" content="0;url=?act=batches">';
                         break;
                     case 'delBatche':
                         deleteBatche($_GET['id']);
