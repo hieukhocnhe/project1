@@ -1,6 +1,5 @@
-<?php 
-
-include './lib/PhpExcel/vendor/autoload.php';
+<?php
+require '../lib/PhpExcel/vendor/autoload.php';
 
 // Hàm ghi dữ liệu vào file Excel
 function writeProductsToExcel($products, $filename)
@@ -71,4 +70,3 @@ function getFirstSheetName($filename)
     $sheetNames = $objPHPExcel->getSheetNames();
     return $sheetNames[0];
 }
-?>

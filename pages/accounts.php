@@ -15,6 +15,8 @@
                     </th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Họ và tên
                     </th>
+                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ảnh đại diện
+                    </th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Email
                     </th>
                     <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Địa chỉ</th>
@@ -40,6 +42,9 @@
                         </td>
                         <td class="align-middle">
                             <?= $fullname ?>
+                        </td>
+                        <td class="align-middle">
+                            <img src="../assets/img/accounts/<?= $avatar ?>" class="avatar avatar-sm rounded-circle me-2">
                         </td>
                         <td class="align-middle">
                             <?= $email ?>

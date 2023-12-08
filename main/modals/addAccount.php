@@ -58,7 +58,8 @@
                                 <div class="col-md-12 mb-4 pb-2">
                                     <div class="form-group">
                                         <label for="address">Địa chỉ</label>
-                                        <textarea class="form-control form-control-sm" name="address" id="address" rows="3"></textarea>
+                                        <textarea class="form-control form-control-sm" name="address" id="address"
+                                            rows="3"></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-12 mb-4 pb-2">
@@ -74,12 +75,21 @@
                                     <label for="position">Vai trò</label>
                                     <select class="form-control form-control-sm" name="position_id">
                                         <?php foreach ($positions as $key => $value):
-                                             ?>
+                                            ?>
                                             <option value="<?= $value['id'] ?>">
                                                 <?= $value['position_name'] ?>
                                             </option>
                                         <?php endforeach; ?>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12 mb-4">
+                                    <div class="form-outline">
+                                        <label class="form-label" for="avatar">Ảnh đại diện</label>
+                                        <input type="file" name="avatar" id="avatar"
+                                            class="form-control form-control-sm" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

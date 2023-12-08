@@ -37,16 +37,5 @@ Tất nhiên, dưới đây là giải thích chi tiết cho từng chức năng
    - Thêm, sửa, xóa người dùng: Quản lý người dùng trong hệ thống.
    - Gán quyền hạn cho từng người dùng: Điều chỉnh quyền truy cập dựa trên chức năng và trách nhiệm.
 
-10. **Thông Báo và Cảnh Báo:**
-    - Gửi thông báo khi tồn kho dưới mức tối thiểu: Cảnh báo người quản lý khi tồn kho giảm đến mức quy định.
-    - Cảnh báo về hạn sử
-
- dụng sắp hết: Thông báo về các lô hàng gần hết hạn sử dụng.
-
-11. **Quản Lý Đổi Trả:**
-    - Ghi nhận các yêu cầu đổi trả hàng: Quản lý quy trình đổi trả và cập nhật thông tin đối với các sản phẩm đang được đổi trả.
-
-12. **Tích Hợp Mô-đun:**
-    - Kết hợp với các mô-đun như quản lý nhân sự, quản lý đơn đặt hàng, v.v.: Tùy chỉnh để tích hợp với các chức năng khác trong tổ chức.
 
 Hy vọng rằng những giải thích trên sẽ giúp bạn hiểu rõ hơn về mỗi chức năng trong dự án của mình.

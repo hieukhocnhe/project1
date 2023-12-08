@@ -36,7 +36,6 @@
               <td class="align-middle">
                 <?= number_format($price, 0, ',', '.') ?> VNĐ
               </td>
-
               <td class="align-middle">
                 <img src="../assets/img/products/<?= $image ?>" class="avatar avatar-sm rounded-circle me-2">
               </td>

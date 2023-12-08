@@ -177,7 +177,6 @@ CREATE TABLE batch_products (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
     batch_id INT(11) NOT NULL,
     product_id INT(11) NOT NULL,
-    quantity INT(11) NOT NULL,
     -- Các cột khác liên quan đến sản phẩm trong lô hàng (nếu có)
     FOREIGN KEY (batch_id) REFERENCES batches(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
@@ -185,11 +184,10 @@ CREATE TABLE batch_products (
 
 
 -- Chèn dữ liệu giả mạo vào bảng batch_products với trường product_id ngẫu nhiên từ 5 đến 200
-INSERT INTO batch_products (batch_id, product_id, quantity)
+INSERT INTO batch_products (batch_id, product_id)
 SELECT
     b.id AS batch_id,
     FLOOR(RAND() * (195) + 5) AS product_id, -- Số ngẫu nhiên từ 5 đến 200
-    FLOOR(RAND() * 100) + 1 -- Số lượng (ngẫu nhiên từ 1 đến 100)
 FROM
     batches b
 LIMIT 200; -- Số lượng bản ghi bạn muốn tạo
@@ -202,14 +200,13 @@ CREATE TABLE accounts (
     username VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     fullname VARCHAR(255) NULL,
+    avatar VARCHAR(255) NULL,
     email VARCHAR(255) NOT NULL,
     address TEXT NULL,
     tel VARCHAR(15) NULL,
     bio TEXT NULL,
     status VARCHAR(255) NOT NULL DEFAULT 'Đang làm việc', 
     position_id INT(11) NOT NULL DEFAULT 1,
-    notification_enabled BOOLEAN DEFAULT 1,
-    products_to_ship TEXT,
     FOREIGN KEY (position_id) REFERENCES positions(id) ON DELETE CASCADE
 );
 
@@ -227,9 +224,7 @@ SELECT
     CONCAT('123456789', FLOOR(RAND() * 900) + 100) AS tel,
     CONCAT('Bio ', number) AS bio,
     IF(RAND() > 0.5, 'Đã nghỉ việc', 'Đang làm việc') AS status,
-    FLOOR(RAND() * 2) AS position_id,
-    RAND() > 0.5 AS notification_enabled,
-    CONCAT('Sản phẩm ', number) AS products_to_ship
+    FLOOR(RAND() * 2) AS position_id
 FROM (
     SELECT @num_records := @num_records - 1 AS number
     FROM information_schema.tables
@@ -273,42 +268,6 @@ CREATE TABLE transactions (
 );
 
 
--- Bảng hóa đơn
-CREATE TABLE invoices (
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    transaction_id INT(11) NOT NULL,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    total_amount INT(11),
-    status VARCHAR(50) NOT NULL,
-    storage_area_id INT(11),
-    FOREIGN KEY (transaction_id) REFERENCES transactions(id),
-    FOREIGN KEY (storage_area_id) REFERENCES storage_areas(id)
-);
-
--- Bảng chi tiết hóa đơn
-CREATE TABLE invoice_details (
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    invoice_id INT(11),
-    product_id INT(11),
-    quantity INT(11),
-    unit_price INT(11),
-    total_amount INT(11),
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (invoice_id) REFERENCES invoices(id),
-    FOREIGN KEY (product_id) REFERENCES products(id)
-);
-
--- Bảng sản phẩm cần xuất cho từng tài khoản
-CREATE TABLE products_to_ship (
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    account_id INT(11) NOT NULL,
-    product_id INT(11) NOT NULL,
-    quantity INT(11) NOT NULL,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (account_id) REFERENCES accounts(id),
-    FOREIGN KEY (product_id) REFERENCES products(id)
-);
-
 -- Bảng thống kê và báo cáo
 CREATE TABLE stock_statistics (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -323,16 +282,6 @@ CREATE TABLE stock_statistics (
     FOREIGN KEY (storage_area_id) REFERENCES storage_areas(id)
 );
 
--- Bảng thông báo
-CREATE TABLE notifications (
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    account_id INT(11) NOT NULL,
-    product_id INT(11) NOT NULL,
-    message TEXT NOT NULL,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (account_id) REFERENCES accounts(id),
-    FOREIGN KEY (product_id) REFERENCES products(id)
-);
 
 -- Bảng tồn kho
 CREATE TABLE inventory (
@@ -349,15 +298,3 @@ CREATE TABLE inventory (
     FOREIGN KEY (storage_area_id) REFERENCES storage_areas(id)
 );
 
--- Bảng đổi trả
-CREATE TABLE returns (
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    order_id INT(11) NOT NULL,
-    batche_id INT(11) NOT NULL,
-    quantity INT(11) NOT NULL,
-    return_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(50),
-    note TEXT,
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (batche_id) REFERENCES batches(id)
-);

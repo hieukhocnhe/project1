@@ -114,24 +114,25 @@ function changePassword($id, $old_password, $new_password)
 }
 
 
-function insertAccount($username, $password, $fullname, $email, $address, $tel, $bio, $position_id)
+function insertAccount($username, $password, $fullname, $avatar, $email, $address, $tel, $bio, $position_id)
 {
     try {
-        $sql = "INSERT INTO accounts (username, password, fullname, email, address, tel, bio, position_id) 
-            VALUES ('$username', '$password', '$fullname', '$email', '$address', '$tel', '$bio', '$position_id');";
+        $sql = "INSERT INTO accounts (username, password, fullname, avatar, email, address, tel, bio, position_id) 
+            VALUES ('$username', '$password', '$fullname', '$avatar', '$email', '$address', '$tel', '$bio', '$position_id');";
         pdo_execute($sql);
     } catch (\Exception $e) {
         echo $e->getMessage();
     }
 }
 
-function editAccount($id, $username, $fullname, $email, $tel, $address, $bio, $status_text, $position_id)
+function editAccount($id, $username, $fullname, $avatar, $email, $tel, $address, $bio, $status_text, $position_id)
 {
     try {
         $sql = "UPDATE accounts
         SET
         username = '$username',
         fullname = '$fullname',
+        avatar = '$avatar',
         email = '$email',
         address = '$address',
         tel = '$tel',

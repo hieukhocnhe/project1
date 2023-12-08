@@ -26,7 +26,7 @@
                             <?= $value['name'] ?>
                         </td>
                         <td class="align-middle">
-                            <?= $value['price'] ?>
+                            <?= number_format($value['price'], 0, ',', '.') ?> VNĐ
                         </td>
                         <td class="align-middle">
                             <?= $value['quantity_in_batch'] ?>

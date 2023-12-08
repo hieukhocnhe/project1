@@ -90,6 +90,17 @@
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-12 mb-4 pb-2">
+                                        <div class="form-outline">
+                                            <label class="form-label" for="avatar">Ảnh đại diện</label>
+                                            <input class="form-control form-control-sm" id="avatar" name="edit_avatar"
+                                                type="hidden" />
+                                            <input class="form-control form-control-sm" id="avatar" name="edit_avatar"
+                                                type="file" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <input type="hidden" value="" placeholder="" name="edit_id" id="id">
                         </div>

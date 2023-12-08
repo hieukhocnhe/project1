@@ -76,7 +76,7 @@
                                     <p class="mb-0">Nhập mật khẩu cũ và mật khẩu mới của bạn để thay đổi mật khẩu</p>
                                 </div>
                                 <div class="card-body">
-                                    <form role="form">
+                                    <form role="form" method="post" action="index.php?act=change_password_submit" onsubmit="return validateChangePasswordForm()">
                                         <div class="mb-3">
                                             <input type="password" class="form-control form-control-lg"
                                                 placeholder="Mật khẩu hiện tại" name="old_password"
@@ -84,8 +84,8 @@
                                         </div>
                                         <div class="mb-3">
                                             <input type="password" class="form-control form-control-lg"
-                                                placeholder="Mật khẩu mới" name="new_password"
-                                                aria-label="new_password">
+                                                placeholder="Mật khẩu mới" name="password"
+                                                aria-label="password">
                                         </div>
                                         <div class="mb-3">
                                             <input type="password" class="form-control form-control-lg"
@@ -136,6 +136,40 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    <script>
+    function validateChangePasswordForm() {
+        var oldPassword = document.getElementsByName("old_password")[0].value;
+        var newPassword = document.getElementsByName("password")[0].value;
+        var confirmPassword = document.getElementsByName("conf_pass")[0].value;
+
+        var isValid = true;
+
+        // Reset thông báo lỗi
+        document.getElementById("oldPasswordError").innerHTML = "";
+        document.getElementById("newPasswordError").innerHTML = "";
+        document.getElementById("confirmPasswordError").innerHTML = "";
+
+        // Kiểm tra mật khẩu cũ
+        if (oldPassword === "") {
+            document.getElementById("oldPasswordError").innerHTML = "Vui lòng nhập mật khẩu cũ";
+            isValid = false;
+        }
+
+        // Kiểm tra mật khẩu mới
+        if (newPassword === "") {
+            document.getElementById("newPasswordError").innerHTML = "Vui lòng nhập mật khẩu mới";
+            isValid = false;
+        }
+
+        // Kiểm tra nhập lại mật khẩu
+        if (newPassword !== confirmPassword) {
+            document.getElementById("confirmPasswordError").innerHTML = "Mật khẩu mới và nhập lại không khớp";
+            isValid = false;
+        }
+
+        return isValid;
+    }
+</script>
 </body>
 
 </html>

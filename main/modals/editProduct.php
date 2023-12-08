@@ -108,7 +108,7 @@
         const manufacturing_date = document.querySelector('input[name="edit_manufacturing_date"]');
         const expiry_date = document.querySelector('input[name="edit_expiry_date"]');
         const unit = document.querySelector('input[name="edit_unit"]');
-        const batch_id = document.querySelector('select[name="edit_batch_id"]');
+        const batch_id = document.querySelector('input[name="edit_batch_id"]');
         const image = document.querySelector('input[name="edit_image"]');
 
 

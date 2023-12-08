@@ -76,22 +76,18 @@
                                     <p class="mb-0">Nhập tên đăng nhập và mật khẩu của bạn để đăng nhập</p>
                                 </div>
                                 <div class="card-body">
-                                    <form role="form">
+                                    <form role="form" method="POST" action="index.php?act=login">
                                         <div class="mb-3">
                                             <input type="username" class="form-control form-control-lg"
                                                 placeholder="Tên đăng nhập" name="username" aria-label="username">
                                         </div>
                                         <div class="mb-3">
                                             <input type="password" class="form-control form-control-lg"
-                                                placeholder="Mật khẩu" name="password" aria-label="Password">
-                                        </div>
-                                        <div class="form-check form-switch">
-                                            <input class="form-check-input" type="checkbox" id="rememberMe">
-                                            <label class="form-check-label" for="rememberMe">Ghi nhớ tôi</label>
+                                                placeholder="Mật khẩu" name="password" aria-label="password">
                                         </div>
                                         <div class="text-center">
-                                            <button type="button" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0"
-                                                name="submit">Đăng nhập</button>
+                                            <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0"
+                                                name="login">Đăng nhập</button>
                                         </div>
                                     </form>
                                 </div>
