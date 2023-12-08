@@ -126,6 +126,8 @@
         const address = document.querySelector('textarea[name="edit_address"]');
         const bio = document.querySelector('textarea[name="edit_bio"]');
         const status = document.querySelector('select[name="edit_status"]');
+        const avatar = document.querySelector('input[name="edit_avatar"]');
+
 
         const button = event.relatedTarget
         const recipient = button.getAttribute('data-value')
@@ -135,8 +137,10 @@
         fullname.setAttribute('value', val.fullname);
         email.setAttribute('value', val.email);
         tel.setAttribute('value', val.tel);
+        avatar.setAttribute('value', val.avatar);
         address.value = val.address;
         bio.value = val.bio;
+
         // Duyệt qua từng option để đặt thuộc tính selected
         status.querySelectorAll('option').forEach(option => {
             if (option.value == val.status) {

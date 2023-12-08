@@ -9,12 +9,12 @@ if (!isset($_SESSION['user'])) {
 include '../model/pdo.php';
 include '../model/account.php';
 include '../model/supplier.php';
+include '../model/storageArea.php';
 include '../model/batche.php';
 include '../model/product.php';
 include '../model/excel.php';
 require '../lib/PhpExcel/vendor/autoload.php';
 
-pdo_connect();
 
 ?>
 
@@ -100,6 +100,7 @@ pdo_connect();
                                 $avatar = $_POST['edit_avatar'];
                             }
                         }
+
                         editAccount($id, $username, $fullname, $avatar, $email, $tel, $address, $bio, $status_text, $position_id);
                         echo '<meta http-equiv="refresh" content="0;url=?act=accounts">';
                         break;
@@ -145,6 +146,29 @@ pdo_connect();
                     case 'delSupplier':
                         deleteSupplier($_GET['id']);
                         echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
+                        break;
+                    case 'storageAreas':
+                        $storageAreas = getAllStorageArea();
+                        // var_dump($storageAreas);
+                        include '../pages/storageArea/storageAreas.php';
+                        break;
+                    case 'storageAreasDetail':
+                        include '../pages/storageAreas/storageAreasDetail.php';
+                        break;
+                    case 'addStorageArea':
+                        if (isset($_POST['addStorageArea'])) {
+                            $area_name = $_POST['area_name'];
+                        }
+                        insertStorageArea($area_name);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=storageAreas">';
+                        break;
+                    case 'editStorageArea':
+                        if (isset($_POST['editStorageArea'])) {
+                            $id = $_POST['id'];
+                            $area_name = $_POST['area_name'];
+                        }
+                        editStorageArea($id, $area_name);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=storageAreas">';
                         break;
                     case 'batches':
                         $statuses = getAllBatchStatuses();

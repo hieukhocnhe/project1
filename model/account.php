@@ -21,7 +21,7 @@ function verifyPassword($password, $hashedPassword)
 function getAllAccounts()
 {
     try {
-        $sql = "SELECT a.id AS id, a.username AS username, a.fullname AS fullname,
+        $sql = "SELECT a.id AS id, a.username AS username, a.fullname AS fullname, a.avatar AS avatar,
         a.email AS email, a.address AS address, a.tel AS tel, a.bio AS bio, a.status AS status,
         a.position_id AS position_id, p.position_name AS position_name
         FROM accounts a INNER JOIN positions p ON a.position_id = p.id ORDER BY a.id ASC;";

@@ -76,7 +76,7 @@
                                     <p class="mb-0">Nhập tên đăng nhập và mật khẩu mới của bạn để thay đổi mật khẩu</p>
                                 </div>
                                 <div class="card-body">
-                                    <form role="form">
+                                    <form role="form" method="post" action="index.php?act=forgot_password">
                                         <div class="mb-3">
                                             <input type="username" class="form-control form-control-lg"
                                                 placeholder="Tên đăng nhập" name="username" aria-label="username">
@@ -91,7 +91,7 @@
                                                 aria-label="Password">
                                         </div>
                                         <div class="text-center">
-                                            <button type="button" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0"
+                                            <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0"
                                                 name="submit">Xác nhận</button>
                                         </div>
                                     </form>
