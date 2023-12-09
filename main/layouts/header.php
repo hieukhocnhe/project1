@@ -18,10 +18,11 @@
                         </div>
                     </a>
                 </li>
-                <li>
-                    <img src="../assets/img/accounts/<?= $avatar ?>" class="avatar avatar-sm rounded-circle me-2">
+                <li class="mt-3">
+                    <img src="../assets/img/accounts/<?= $_SESSION['user']['avatar'] ?>"
+                        class="avatar avatar-sm rounded-circle me-2">
                 </li>
-                <li>
+                <li class="align-items-center mt-3 mx-3">
                     <a class="btn btn-danger" href="?act=logout">Đăng xuất</a>
                 </li>
             </ul>

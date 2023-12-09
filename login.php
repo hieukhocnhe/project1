@@ -43,7 +43,12 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navigation">
                             <ul class="navbar-nav mx-auto">
-
+                                <li class="nav-item">
+                                    <a class="nav-link me-2" href="signup.php">
+                                        <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
+                                        Đăng ký
+                                    </a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link me-2" href="login.php">
                                         <i class="fas fa-user-circle opacity-6 text-dark me-1"></i>
@@ -76,22 +81,31 @@
                                     <p class="mb-0">Nhập tên đăng nhập và mật khẩu của bạn để đăng nhập</p>
                                 </div>
                                 <div class="card-body">
-                                    <form role="form" method="POST" action="index.php?act=login">
+                                    <form role="form" method="POST" action="./main/index.php?act=login"
+                                        onsubmit="return validateLoginForm()" name="loginForm">
                                         <div class="mb-3">
-                                            <input type="username" class="form-control form-control-lg"
-                                                placeholder="Tên đăng nhập" name="username" aria-label="username">
+                                            <input type="text" class="form-control form-control-lg"
+                                                placeholder="Tên đăng nhập" name="username" aria-label="username"
+                                                autocomplete="username">
                                         </div>
                                         <div class="mb-3">
                                             <input type="password" class="form-control form-control-lg"
-                                                placeholder="Mật khẩu" name="password" aria-label="password">
+                                                placeholder="Mật khẩu" name="password" aria-label="password"
+                                                autocomplete="current-password">
                                         </div>
                                         <div class="text-center">
                                             <button type="submit" class="btn btn-lg btn-primary btn-lg w-100 mt-4 mb-0"
                                                 name="login">Đăng nhập</button>
                                         </div>
+                                        <span id="loginMessage" class="text-danger mb-3"></span>
                                     </form>
                                 </div>
                                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
+                                    <p class="mb-4 text-sm mx-auto">
+                                        Bạn chưa có tài khoản?
+                                        <a class="text-primary text-gradient font-weight-bold" href="signup.php">Đăng
+                                            ký</a>
+                                    </p>
                                     <p class="mb-4 text-sm mx-auto">
                                         Bạn không nhớ mật khẩu?
                                         <a class="text-primary text-gradient font-weight-bold"
@@ -136,6 +150,24 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
     <script src="assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    <script>
+        function validateLoginForm() {
+            var username = document.forms["loginForm"]["username"].value;
+            var password = document.forms["loginForm"]["password"].value;
+            var messageElement = document.getElementById("loginMessage");
+
+            if (username === "" || password === "") {
+                messageElement.innerHTML = "Vui lòng điền đầy đủ tên đăng nhập và mật khẩu.";
+                return false;
+            }
+
+            if (password.length < 8) {
+                messageElement.innerHTML = "Mật khẩu phải có ít nhất 8 ký tự.";
+                return false;
+            }
+            return true;
+        } 
+    </script>
 </body>
 
 </html>
