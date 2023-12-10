@@ -33,8 +33,8 @@
                                 </div>
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        <label class="form-label" for="edit_storage_area_id">Khu vực lưu trữ</label>
-                                        <input type="text" name="edit_storage_area_id" id="edit_storage_area_id"
+                                        <label class="form-label" for="edit_storage_id">Khu vực lưu trữ</label>
+                                        <input type="text" name="edit_storage_id" id="edit_storage_id"
                                             class="form-control form-control-sm" />
                                     </div>
                                 </div>
@@ -94,7 +94,8 @@
     myModal.addEventListener('shown.bs.modal', function () {
         const id = document.querySelector('input[name="edit_id"]');
         const batche_code = document.querySelector('input[name="edit_batche_code"]');
-        const storage_area_id = document.querySelector('input[name="edit_storage_area_id"]');
+        const storage_id = document.querySelector('input[name="edit_storage_id"]');
+        const supplier_id = document.querySelector('input[name="edit_supplier_id"]');
         const manufacturing_date = document.querySelector('input[name="edit_manufacturing_date"]');
         const expiry_date = document.querySelector('input[name="edit_expiry_date"]');
         const created_at = document.querySelector('input[name="edit_created_at"]');
@@ -105,14 +106,12 @@
         const val = JSON.parse(recipient)
 
         batche_code.setAttribute('value', val.batche_code);
-        storage_area_id.setAttribute('value', val.storage_area_id);
+        storage_id.setAttribute('value', val.storage_id);
+        supplier_id.setAttribute('value', val.supplier_id);
         manufacturing_date.setAttribute('value', val.manufacturing_date);
         expiry_date.setAttribute('value', val.expiry_date);
         created_at.setAttribute('value', val.created_at);
         status.setAttribute('value', val.status);
         id.setAttribute('value', val.id);
-
-        console.log(myModal);
-
     })
 </script>

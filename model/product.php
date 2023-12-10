@@ -3,20 +3,7 @@
 function getAllProducts()
 {
     try {
-        $sql = "SELECT
-                    products.*,
-                    MAX(batches.manufacturing_date) AS manufacturing_date_from_batche,
-                    MAX(batches.expiry_date) AS expiry_date_from_batche,
-                    MAX(batches.batche_code) AS batche_code
-                FROM
-                    products
-                LEFT JOIN
-                    batches ON products.batch_id = batches.id
-                GROUP BY
-                    products.id
-                ORDER BY
-                    products.id DESC
-                LIMIT 10;";
+        $sql = "SELECT * FROM products;";
         return pdo_query($sql);
     } catch (\Exception $e) {
         return $e->getMessage();
@@ -26,15 +13,13 @@ function getAllProducts()
 function getProductByName($name)
 {
     try {
-        $sql = "SELECT * FROM
-        products
-        WHERE
-        name = '$name';";
+        $sql = "SELECT * FROM products WHERE name = '$name';";
         return pdo_query_one($sql);
     } catch (Exception $e) {
         echo $e->getMessage();
     }
 }
+
 
 function insertProduct($name, $price, $image, $quantity_in_stock, $manufacturing_date, $expiry_date, $unit)
 {
@@ -84,6 +69,30 @@ function delProduct($id)
     try {
         $sql = "DELETE FROM products WHERE id = $id";
         pdo_execute($sql);
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+function getProductDetailByProductId($id)
+{
+    try {
+        $sql = "SELECT 
+                    products.id AS product_id, products.name AS product_name, products.price AS product_price,
+                    products.image AS product_image, products.quantity_in_stock AS product_quantity_in_stock,
+                    products.quantity_in_batch AS product_quantity_in_batch,
+                    batches.id AS batch_id, batches.batche_code,
+                    batches.manufacturing_date AS batch_manufacturing_date,
+                    batches.expiry_date AS batch_expiry_date
+                FROM 
+                    products
+                JOIN 
+                    batch_products ON products.id = batch_products.product_id
+                JOIN 
+                    batches ON batch_products.batch_id = batches.id
+                WHERE 
+                    products.id = $id;";
+        return pdo_query($sql);
     } catch (\Exception $e) {
         echo $e->getMessage();
     }

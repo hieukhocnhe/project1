@@ -3,10 +3,26 @@
 function getAllProductByBatcheId($id)
 {
     try {
-        $sql = "SELECT products.*, batches.manufacturing_date, batches.expiry_date, batches.batche_code
-        FROM products
-        JOIN batches ON products.batch_id = batches.id
-        WHERE batches.id = $id;";
+        $sql = "SELECT 
+                    batch_products.*,
+                    products.id AS product_id,
+                    products.name AS product_name,
+                    products.price AS product_price,
+                    products.image AS product_image,
+                    products.quantity_in_stock AS product_quantity_in_stock,
+                    products.quantity_in_batch AS product_quantity_in_batch,
+                    products.manufacturing_date AS product_manufacturing_date,
+                    products.expiry_date AS product_expiry_date,
+                    batches.batche_code
+                FROM 
+                    batch_products
+                JOIN 
+                    products ON batch_products.product_id = products.id
+                JOIN 
+                    batches ON batch_products.batch_id = batches.id
+                WHERE 
+                    batch_products.batch_id = $id;
+";
         return pdo_query($sql);
     } catch (\Exception $e) {
         return $e->getMessage();
@@ -71,19 +87,20 @@ function getLatestBatche()
 
 
 // Hàm thêm lô hàng và trả về thông tin về lô hàng vừa thêm
-function insertBatche($batche_code, $supplier_id, $storage_area_id, $manufacturing_date, $expiry_date, $created_at, $status_id)
+function insertBatche($batche_code, $supplier_id, $storage_id, $manufacturing_date, $expiry_date, $created_at, $status_id)
 {
     try {
         $batche_code = generateRandomString();
         $sql = "INSERT INTO batches (batche_code, supplier_id, storage_area_id, manufacturing_date, expiry_date, created_at, status_id)
-        VALUES ('$batche_code', $supplier_id, $storage_area_id, '$manufacturing_date', '$expiry_date', '$created_at', $status_id)";
+        VALUES ('$batche_code', $supplier_id, $storage_id, '$manufacturing_date', '$expiry_date', '$created_at', $status_id)";
         pdo_execute($sql);
     } catch (Exception $e) {
         echo $e->getMessage();
     }
 }
 
-function getBatchById($batch_id) {
+function getBatchById($batch_id)
+{
     try {
         $sql = "SELECT * FROM batches WHERE id = $batch_id";
         return pdo_query_one($sql);
@@ -104,6 +121,26 @@ function addBatchDetail($batch_id, $name)
         return pdo_execute($sql);
     } catch (Exception $e) {
         echo $e->getMessage();
+    }
+}
+
+function editBatche($id, $batche_code, $supplier_id, $storage_area_id, $manufacturing_date, $expiry_date, $status_id, $created_at)
+{
+    try {
+        $sql = "UPDATE batches
+                SET
+                    batche_code = '$batche_code',
+                    supplier_id = '$supplier_id',
+                    storage_area_id = '$storage_area_id',
+                    manufacturing_date = '$manufacturing_date',
+                    expiry_date = '$expiry_date',
+                    status_id = '$status_id',
+                    created_at = '$created_at'
+                WHERE
+                    id = $id;";
+        pdo_execute($sql);
+    } catch (\Exception $e) {
+        $e->getMessage();
     }
 }
 

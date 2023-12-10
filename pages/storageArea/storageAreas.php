@@ -36,7 +36,7 @@
                             <a class="btn btn-success btn-sm" href="?act=storageAreaDetail&id=<?= $id ?>"><i
                                     class="fa fa-info"></i></a>
                             <a onclick="return confirm('Bạn có xác nhận xóa ?');" class="btn btn-danger btn-sm"
-                                href="?act=delstorageArea&id=<?= $id ?>"><i class="fa fa-trash"></i></a>
+                                href="?act=delStorageArea&id=<?= $id ?>"><i class="fa fa-trash"></i></a>
                         </td>
                     <?php endforeach ?>
             </tbody>

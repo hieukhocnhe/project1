@@ -100,7 +100,6 @@ require '../lib/PhpExcel/vendor/autoload.php';
                                 $avatar = $_POST['edit_avatar'];
                             }
                         }
-
                         editAccount($id, $username, $fullname, $avatar, $email, $tel, $address, $bio, $status_text, $position_id);
                         echo '<meta http-equiv="refresh" content="0;url=?act=accounts">';
                         break;
@@ -149,11 +148,12 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         break;
                     case 'storageAreas':
                         $storageAreas = getAllStorageArea();
-                        // var_dump($storageAreas);
                         include '../pages/storageArea/storageAreas.php';
                         break;
-                    case 'storageAreasDetail':
-                        include '../pages/storageAreas/storageAreasDetail.php';
+                    case 'storageAreaDetail':
+                        $storageAreaDetail = getStorageAreaById($_GET['id']);
+                        // var_dump($storageAreaDetail);die;
+                        include '../pages/storageArea/storageAreaDetail.php';
                         break;
                     case 'addStorageArea':
                         if (isset($_POST['addStorageArea'])) {
@@ -164,10 +164,14 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         break;
                     case 'editStorageArea':
                         if (isset($_POST['editStorageArea'])) {
-                            $id = $_POST['id'];
-                            $area_name = $_POST['area_name'];
+                            $id = $_POST['edit_id'];
+                            $area_name = $_POST['edit_area_name'];
                         }
                         editStorageArea($id, $area_name);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=storageAreas">';
+                        break;
+                    case 'delStorageArea':
+                        deleteStorageArea($_GET['id']);
                         echo '<meta http-equiv="refresh" content="0;url=?act=storageAreas">';
                         break;
                     case 'batches':
@@ -176,7 +180,7 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         include '../pages/batche/batches.php';
                         break;
                     case 'batcheDetail':
-                        $batch_detail = getAllProductByBatcheId($_GET['id']);
+                        $batchDetail = getAllProductByBatcheId($_GET['id']);
                         include '../pages/batche/batcheDetail.php';
                         break;
                     case 'addBatche':
@@ -226,44 +230,21 @@ require '../lib/PhpExcel/vendor/autoload.php';
                     case 'editBatche':
                         if (isset($_POST['editBatche'])) {
 
-                            // Thêm một lô hàng
+                            $id = $_POST['edit_id'];
                             $batche_code = $_POST['edit_batche_code'];
                             $supplier_id = $_POST['edit_supplier_id'];
-                            $storage_area_id = $_POST['edit_storage_area_id'];
+                            $storage_id = $_POST['edit_storage_id'];
                             $manufacturing_date = $_POST['edit_manufacturing_date'];
                             $expiry_date = $_POST['edit_expiry_date'];
-                            $created_at = $_POST['edit_created_at'];
                             $status_id = $_POST['edit_status_id'];
+                            $created_at = $_POST['edit_created_at'];
 
                             $dateTime = new DateTime($created_at);
                             $created_at = $dateTime->format('Y-m-d H:i:s');
 
-
-                            insertBatche($batche_code, $supplier_id, $storage_area_id, $manufacturing_date, $expiry_date, $created_at, $status_id);
-
-                            // Xử lý thêm sản phẩm từ file ở đây
-                            $file = $_FILES['products'];
-                            $file_name = $file['name'];
-                            $tmp_file = $file['tmp_name'];
-                            $extension = pathinfo($file_name, PATHINFO_EXTENSION);
-                            $upload_directory = '../assets/public/product_upload/';
-                            if ($extension == 'xlsx') {
-                                if (move_uploaded_file($tmp_file, $upload_directory . $file_name)) {
-                                    echo "Upload file thành công";
-                                } else {
-                                    echo "Lỗi trong quá trình upload file";
-                                }
-                            } else {
-                                echo "File không đúng định dạng";
-                            }
-                            $products = readDataFromExcelBySheetName($upload_directory . $file_name, 'products');
-                            foreach ($products as $product) {
-                                if ($product['A'] !== 'name') {
-                                    addBatchDetail($batch_id, $product['A']);
-                                }
-                            }
+                            editBatche($id, $batche_code, $supplier_id, $storage_id, $manufacturing_date, $expiry_date, $status_id, $created_at);
                         }
-                        // echo '<meta http-equiv="refresh" content="0;url=?act=batches">';
+                        echo '<meta http-equiv="refresh" content="0;url=?act=batches">';
                         break;
                     case 'delBatche':
                         deleteBatche($_GET['id']);
@@ -271,7 +252,11 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         break;
                     case 'products':
                         $products = getAllProducts();
-                        include '../pages/products.php';
+                        include '../pages/product/products.php';
+                        break;
+                    case 'productDetail':
+                        $productDetail = getProductDetailByProductId($_GET['id']);
+                        include '../pages/product/productDetail.php';
                         break;
                     case 'addProduct':
                         if (isset($_POST['addProduct'])) {
