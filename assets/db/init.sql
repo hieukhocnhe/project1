@@ -127,6 +127,23 @@ FROM (
     LIMIT 100 -- Số lượng batches bạn muốn tạo
 ) AS numbers;
 
+CREATE TABLE product_statuses (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL
+);
+
+INSERT INTO product_statuses (name) VALUES
+    ('Hoạt động'),
+    ('Hết hàng'),
+    ('Ngừng kinh doanh'),
+    ('Sắp ra mắt'),
+    ('Khuyến mãi'),
+    ('Hàng mới'),
+    ('Khả dụng trực tuyến'),
+    ('Chờ xử lý'),
+    ('Chờ xác nhận'),
+    ('Chờ thanh toán');
+
 
 -- Bảng sản phẩm
 CREATE TABLE products (
@@ -136,10 +153,12 @@ CREATE TABLE products (
     image VARCHAR(255) NULL,
     quantity_in_stock INT(11),
     quantity_in_batch INT(11) NOT NULL DEFAULT 0,
+    status_id TINYINT(1) NOT NULL DEFAULT 1,
     manufacturing_date DATE,
     expiry_date DATE,
     batch_id INT(11),  -- Thêm trường batch_id vào bảng products
-    FOREIGN KEY (batch_id) REFERENCES batches(id)  -- Khóa ngoại tham chiếu đến bảng batches
+    FOREIGN KEY (batch_id) REFERENCES batches(id),  -- Khóa ngoại tham chiếu đến bảng batches
+    FOREIGN KEY (status_id) REFERENCES product_statuses(id)
 );
 
 
@@ -172,6 +191,7 @@ FROM (
 
 
 
+
 -- Bảng chi tiết lô hàng - sản phẩm
 CREATE TABLE batch_products (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -181,7 +201,6 @@ CREATE TABLE batch_products (
     FOREIGN KEY (batch_id) REFERENCES batches(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );
-
 
 -- Chèn dữ liệu giả mạo vào bảng batch_products với trường product_id ngẫu nhiên từ 5 đến 200
 INSERT INTO batch_products (batch_id, product_id)
@@ -253,18 +272,26 @@ INSERT INTO transaction_types (name, description, created_at, updated_at) VALUES
 -- Bảng giao dịch
 CREATE TABLE transactions (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    product_id INT(11) NOT NULL,
     transaction_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     transaction_type_id INT(11) NOT NULL,
     quantity_changed INT(11) NOT NULL,
     storage_area_id INT(11) NOT NULL,
-    account_id INT(11),
     status VARCHAR(50), 
     previous_quantity INT(11),
-    FOREIGN KEY (product_id) REFERENCES products(id),
     FOREIGN KEY (transaction_type_id) REFERENCES transaction_types(id),
     FOREIGN KEY (storage_area_id) REFERENCES storage_areas(id),
     FOREIGN KEY (account_id) REFERENCES accounts(id)
+);
+
+
+-- Bảng sản phẩm giao dịch
+CREATE TABLE transaction_products (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    transaction_id INT(11) NOT NULL,
+    product_id INT(11) NOT NULL,
+    quantity_changed INT(11) NOT NULL,
+    FOREIGN KEY (transaction_id) REFERENCES transactions(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
 

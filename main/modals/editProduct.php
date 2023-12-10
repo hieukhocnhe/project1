@@ -17,7 +17,8 @@
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
                                         <label class="form-label" for="edit_name">Tên sản phẩm</label>
-                                        <input type="text" name="edit_name" id="edit_name" class="form-control form-control-sm" />
+                                        <input type="text" name="edit_name" id="edit_name"
+                                            class="form-control form-control-sm" />
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-4">
@@ -31,37 +32,29 @@
                             <div class="row">
                                 <div class="col-md-6 mb-4">
                                     <div class="form-outline">
-                                        <label class="form-label" for="edit_quantity_in_stock">Số lượng</label>
-                                        <input type="number" name="edit_quantity_in_stock" id="edit_quantity_in_stock"
-                                            class="form-control form-control-sm" />
-                                    </div>
-                                </div>
-                                <div class="col-md-6 mb-4">
-                                    <div class="form-outline">
-                                        <label class="form-label" for="edit_quantity_in_stock">Số lượng tồn kho</label>
-                                        <input type="number" name="edit_quantity_in_stock" id="edit_quantity_in_stock"
-                                            class="form-control form-control-sm" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6 mb-4">
-                                    <div class="form-outline">
                                         <label class="form-label" for="edit_unit">Đơn vị tính</label>
-                                        <input type="text" name="edit_unit" id="edit_unit" class="form-control form-control-sm" />
+                                        <input type="text" name="edit_unit" id="edit_unit"
+                                            class="form-control form-control-sm" />
                                     </div>
                                 </div>
-                                <div class="col-md-6 mb-4">
-                                    <div class="form-outline">
-                                        <label class="form-label" for="edit_batch_id">Id lô hàng</label>
-                                        <input type="text" name="edit_batch_id" id="edit_batch_id" class="form-control form-control-sm" />
-                                    </div>
+                                <div class="col-md-6 mb-4 pb-2">
+                                    <label for="edit_status_id">Trạng thái</label>
+                                    <select class="form-control form-control-sm" name="edit_status_id">
+                                        <?php
+                                        foreach ($statuses as $status):
+                                            extract($status) ?>
+                                            <option value="<?= $id ?>">
+                                                <?= $name ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6 mb-4 pb-2">
                                     <div class="form-outline">
-                                        <label class="form-label" for="edit_manufacturing_date">Ngày sản xuất</label>
+                                        <label class="form-label" for="edit_manufacturing_date">Ngày sản
+                                            xuất</label>
                                         <input type="date" name="edit_manufacturing_date" id="edit_manufacturing_date"
                                             class="form-control form-control-sm" />
                                     </div>
@@ -84,6 +77,7 @@
                                             type="file" />
                                     </div>
                                 </div>
+
                             </div>
                             <input type="hidden" value="" placeholder="" name="edit_id" id="id">
                         </div>
@@ -91,7 +85,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Hủy</button>
-                    <button type="submit" class="btn bg-gradient-primary" name="addProduct">Xác nhận</button>
+                    <button type="submit" class="btn bg-gradient-primary" name="editProduct">Xác nhận</button>
                 </div>
             </form>
         </div>
@@ -104,11 +98,10 @@
         const id = document.querySelector('input[name="edit_id"]');
         const name = document.querySelector('input[name="edit_name"]');
         const price = document.querySelector('input[name="edit_price"]');
-        const quantity_in_stock = document.querySelector('input[name="edit_quantity_in_stock"]');
         const manufacturing_date = document.querySelector('input[name="edit_manufacturing_date"]');
         const expiry_date = document.querySelector('input[name="edit_expiry_date"]');
         const unit = document.querySelector('input[name="edit_unit"]');
-        const batch_id = document.querySelector('input[name="edit_batch_id"]');
+        const status = document.querySelector('select[name="edit_status_id"]');
         const image = document.querySelector('input[name="edit_image"]');
 
 
@@ -118,11 +111,10 @@
 
         name.setAttribute('value', val.name);
         price.setAttribute('value', val.price);
-        quantity_in_stock.setAttribute('value', val.quantity_in_stock);
         manufacturing_date.setAttribute('value', val.manufacturing_date);
         expiry_date.setAttribute('value', val.expiry_date);
         unit.setAttribute('value', val.unit);
-        batch_id.setAttribute('value', val.batch_id);
+        status.setAttribute('value', val.status);
         image.setAttribute('value', val.image);
         id.setAttribute('value', val.id);
 

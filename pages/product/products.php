@@ -17,6 +17,7 @@
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ảnh</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Số lượng ban đầu</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Đơn vị tính</th>
+            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Trạng thái</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ngày sản xuất</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Hạn sử dụng</th>
             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Chức năng</th>
@@ -45,6 +46,31 @@
                 <?= $unit ?>
               </td>
               <td class="align-middle">
+              <?php
+              $statusValues1 = [2, 5];
+              $statusValues2 = [8, 9, 10];
+              $statusValues3 = [3, 4];
+              $statusValues4 = [1, 7];
+
+              $statusClass = '';
+
+              if (in_array($status_id, $statusValues1)) {
+                $statusClass = "badge badge-sm bg-gradient-danger";
+              } elseif (in_array($status_id, $statusValues2)) {
+                $statusClass = "badge badge-sm bg-gradient-warning";
+              } elseif (in_array($status_id, $statusValues3)) {
+                $statusClass = "badge badge-sm bg-gradient-secondary";
+              } elseif (in_array($status_id, $statusValues4)) {
+                $statusClass = "badge badge-sm bg-gradient-success";
+              } else {
+                $statusClass = "badge badge-sm bg-gradient-info";
+              }
+              ?>
+              <span class="<?= $statusClass ?>">
+                <?= $status_name ?>
+              </span>
+            </td>
+              <td class="align-middle">
                 <?= $manufacturing_date ?>
               </td>
               <td class="align-middle">
@@ -57,8 +83,6 @@
                 </button>
                 <a class="btn btn-success btn-sm" href="?act=productDetail&id=<?= $id ?>"><i
                     class="fa fa-info"></i></a>
-                <a onclick="return confirm('Bạn có xác nhận xóa ?');" class="btn btn-danger btn-sm"
-                  href="?act=delProduct&id=<?= $id ?>"><i class="fa fa-trash"></i></a>
               </td>
             </tr>
           <?php endforeach ?>

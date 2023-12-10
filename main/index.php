@@ -246,12 +246,9 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         }
                         echo '<meta http-equiv="refresh" content="0;url=?act=batches">';
                         break;
-                    case 'delBatche':
-                        deleteBatche($_GET['id']);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=batches">';
-                        break;
                     case 'products':
                         $products = getAllProducts();
+                        $statuses = getAllProductStatuses();
                         include '../pages/product/products.php';
                         break;
                     case 'productDetail':
@@ -266,13 +263,14 @@ require '../lib/PhpExcel/vendor/autoload.php';
                             $manufacturing_date = $_POST['manufacturing_date'];
                             $expiry_date = $_POST['expiry_date'];
                             $unit = $_POST['unit'];
+                            $status_id = $_POST['status_id'];
                             if ($_FILES['image']['name'] != "") {
                                 $path = '../assets/img/products/';
                                 $image = $_FILES['image']['name'];
                                 move_uploaded_file($_FILES['image']['tmp_name'], $path . $image);
                             }
                         }
-                        insertProduct($name, $price, $image, $quantity_in_stock, $manufacturing_date, $expiry_date, $unit);
+                        insertProduct($name, $price, $image, $quantity_in_stock, $manufacturing_date, $expiry_date, $unit, $status_id);
                         echo '<meta http-equiv="refresh" content="0;url=?act=products">';
                         break;
                     case 'editProduct':
@@ -280,11 +278,10 @@ require '../lib/PhpExcel/vendor/autoload.php';
                             $id = $_POST['edit_id'];
                             $name = $_POST['edit_name'];
                             $price = $_POST['edit_price'];
-                            $quantity_in_stock = $_POST['edit_quantity_in_stock'];
-                            $quantity_in_batch = $_POST['edit_quantity_in_batch'];
                             $manufacturing_date = $_POST['edit_manufacturing_date'];
                             $expiry_date = $_POST['edit_expiry_date'];
-                            $batch_id = $_POST['edit_batch_id'];
+                            $status_id = $_POST['edit_status_id'];
+                            $unit = $_POST['edit_unit'];
                             if ($_FILES['edit_image']['name'] != "") {
                                 $path = '../assets/img/products/';
                                 $image = $_FILES['edit_image']['name'];
@@ -293,11 +290,7 @@ require '../lib/PhpExcel/vendor/autoload.php';
                                 $image = $_POST['edit_image'];
                             }
                         }
-                        editProduct($name, $price, $image, $quantity_in_stock, $quantity_in_batch, $manufacturing_date, $expiry_date, $batch_id, $id);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=products">';
-                        break;
-                    case 'delProduct':
-                        delProduct($_GET['id']);
+                        editProduct($name, $price, $image, $manufacturing_date, $expiry_date, $status_id, $unit, $id);
                         echo '<meta http-equiv="refresh" content="0;url=?act=products">';
                         break;
                     case 'inventories':

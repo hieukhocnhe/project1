@@ -3,7 +3,10 @@
 function getAllProducts()
 {
     try {
-        $sql = "SELECT * FROM products;";
+        $sql = "SELECT products.*, product_statuses.name AS status_name
+                FROM products
+                JOIN product_statuses ON products.status_id = product_statuses.id
+                ORDER BY id DESC LIMIT 10;";
         return pdo_query($sql);
     } catch (\Exception $e) {
         return $e->getMessage();
@@ -21,11 +24,11 @@ function getProductByName($name)
 }
 
 
-function insertProduct($name, $price, $image, $quantity_in_stock, $manufacturing_date, $expiry_date, $unit)
+function insertProduct($name, $price, $image, $quantity_in_stock, $manufacturing_date, $expiry_date, $unit, $status_id)
 {
     try {
-        $sql = "INSERT INTO products(name, price, image, quantity_in_stock, manufacturing_date, expiry_date, unit) 
-        VALUES ('$name', '$price', '$image', '$quantity_in_stock', '$manufacturing_date', '$expiry_date', '$unit');";
+        $sql = "INSERT INTO products(name, price, image, quantity_in_stock, manufacturing_date, expiry_date, unit, status_id)
+        VALUES ('$name', '$price', '$image', '$quantity_in_stock', '$manufacturing_date', '$expiry_date', '$unit', '$status_id');";
         pdo_execute($sql);
     } catch (\Exception $e) {
         echo $e->getMessage();
@@ -43,7 +46,7 @@ function insertProductByBatchId($name, $price, $image, $quantity_in_stock, $quan
     }
 }
 
-function editProduct($name, $price, $image, $quantity_in_stock, $quantity_in_batch, $manufacturing_date, $expiry_date, $batch_id, $id)
+function editProduct($name, $price, $image, $manufacturing_date, $expiry_date, $status_id, $unit, $id)
 {
     try {
         $sql = "UPDATE products
@@ -51,11 +54,10 @@ function editProduct($name, $price, $image, $quantity_in_stock, $quantity_in_bat
                     name = '$name',
                     price = '$price',
                     image = '$image',
-                    quantity_in_stock = '$quantity_in_stock',
-                    quantity_in_batch = '$quantity_in_batch',
                     manufacturing_date = '$manufacturing_date',
                     expiry_date = '$expiry_date',
-                    batch_id = $batch_id
+                    status_id = '$status_id',
+                    unit = '$unit'
                 WHERE
                     id = $id;";
         pdo_execute($sql);
@@ -64,15 +66,6 @@ function editProduct($name, $price, $image, $quantity_in_stock, $quantity_in_bat
     }
 }
 
-function delProduct($id)
-{
-    try {
-        $sql = "DELETE FROM products WHERE id = $id";
-        pdo_execute($sql);
-    } catch (\Exception $e) {
-        echo $e->getMessage();
-    }
-}
 
 function getProductDetailByProductId($id)
 {
@@ -92,6 +85,16 @@ function getProductDetailByProductId($id)
                     batches ON batch_products.batch_id = batches.id
                 WHERE 
                     products.id = $id;";
+        return pdo_query($sql);
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+function getAllProductStatuses()
+{
+    try {
+        $sql = "SELECT * FROM product_statuses;";
         return pdo_query($sql);
     } catch (\Exception $e) {
         echo $e->getMessage();

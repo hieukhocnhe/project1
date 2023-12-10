@@ -21,8 +21,7 @@ function getAllProductByBatcheId($id)
                 JOIN 
                     batches ON batch_products.batch_id = batches.id
                 WHERE 
-                    batch_products.batch_id = $id;
-";
+                    batch_products.batch_id = $id;";
         return pdo_query($sql);
     } catch (\Exception $e) {
         return $e->getMessage();
@@ -143,20 +142,6 @@ function editBatche($id, $batche_code, $supplier_id, $storage_area_id, $manufact
         $e->getMessage();
     }
 }
-
-
-function deleteBatche($id)
-{
-    try {
-        $sql = "DELETE FROM batches WHERE id = $id";
-        pdo_execute($sql);
-    } catch (\Exception $e) {
-        echo $e->getMessage();
-    }
-}
-
-
-
 
 
 

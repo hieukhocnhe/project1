@@ -85,8 +85,6 @@
                 <i class="ni ni-settings"></i>
               </button>
               <a class="btn btn-success btn-sm" href="?act=batcheDetail&id=<?= $id ?>"><i class="fa fa-info"></i></a>
-              <a onclick="return confirm('Bạn có xác nhận xóa ?');" class="btn btn-danger btn-sm"
-                href="?act=delBatche&id=<?= $id ?>"><i class="fa fa-trash"></i></a>
             </td>
           <?php endforeach ?>
       </tbody>
