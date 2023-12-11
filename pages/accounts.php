@@ -83,8 +83,6 @@
                                 data-bs-target="#editAccount" data-value='<?= json_encode($account) ?>'>
                                 <i class="ni ni-settings"></i>
                             </button>
-                            <a onclick="return confirm('Bạn có xác nhận xóa ?');" class="btn btn-danger btn-sm"
-                                href="?act=delAccount&id=<?= $id ?>"><i class="fa fa-trash"></i></a>
                         </td>
                     <?php endforeach ?>
             </tbody>

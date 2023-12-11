@@ -5,8 +5,7 @@ function getAllProducts()
     try {
         $sql = "SELECT products.*, product_statuses.name AS status_name
                 FROM products
-                JOIN product_statuses ON products.status_id = product_statuses.id
-                ORDER BY id DESC LIMIT 10;";
+                JOIN product_statuses ON products.status_id = product_statuses.id";
         return pdo_query($sql);
     } catch (\Exception $e) {
         return $e->getMessage();
@@ -96,6 +95,15 @@ function getAllProductStatuses()
     try {
         $sql = "SELECT * FROM product_statuses;";
         return pdo_query($sql);
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+function getQuantityInStock ($product_id) {
+    try {
+        $sql = "SELECT quantity_in_stock FROM products WHERE id = $product_id;";
+        return pdo_query_one($sql);
     } catch (\Exception $e) {
         echo $e->getMessage();
     }

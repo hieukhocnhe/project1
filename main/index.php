@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 if (!isset($_SESSION['user'])) {
@@ -12,9 +13,10 @@ include '../model/supplier.php';
 include '../model/storageArea.php';
 include '../model/batche.php';
 include '../model/product.php';
+include '../model/transaction.php';
 include '../model/excel.php';
 require '../lib/PhpExcel/vendor/autoload.php';
-
+// include 'permission.php';
 
 ?>
 
@@ -56,10 +58,10 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         include 'dashboard.php';
                         break;
                     case 'accounts';
-                        $accounts = getAllAccounts();
-                        $positions = getPositions();
-                        include '../pages/accounts.php';
-                        break;
+                            $accounts = getAllAccounts();
+                            $positions = getPositions();
+                            include '../pages/accounts.php';
+                            break;
                     case 'addAccount':
                         if (isset($_POST['addAccount'])) {
                             $username = $_POST['username'];
@@ -101,10 +103,6 @@ require '../lib/PhpExcel/vendor/autoload.php';
                             }
                         }
                         editAccount($id, $username, $fullname, $avatar, $email, $tel, $address, $bio, $status_text, $position_id);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=accounts">';
-                        break;
-                    case 'delAccount':
-                        deleteAccount($_GET['id']);
                         echo '<meta http-equiv="refresh" content="0;url=?act=accounts">';
                         break;
                     case 'suppliers':
@@ -152,7 +150,6 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         break;
                     case 'storageAreaDetail':
                         $storageAreaDetail = getStorageAreaById($_GET['id']);
-                        // var_dump($storageAreaDetail);die;
                         include '../pages/storageArea/storageAreaDetail.php';
                         break;
                     case 'addStorageArea':
@@ -293,14 +290,31 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         editProduct($name, $price, $image, $manufacturing_date, $expiry_date, $status_id, $unit, $id);
                         echo '<meta http-equiv="refresh" content="0;url=?act=products">';
                         break;
+                    case 'transactions':
+                        $product_transactions = getAllProducts();
+                        $statuses = getAllProductStatuses();
+                        include '../pages/transaction/transactions.php';
+                        break;
+                    case 'productTransactions':
+                        $transactions = getAllTransactionByProductId($_GET['id']);
+                        $types = getAllTypeTransaction();
+                        include '../pages/transaction/productTransactions.php';
+                        break;
+                    case 'transactionDetail':
+                        $transactionDetail = getTransactionDetail($_GET['id']);
+                        include '../pages/transaction/transactionDetail.php';
+                        break;
+                    case 'addTransaction':
+                        if(isset($_POST['addTransaction'])) {
+                        
+                        }
+                        echo '<meta http-equiv="refresh" content="0;url=?act=productTransactions">';
+                        break;
                     case 'inventories':
                         include '../pages/inventories.php';
                         break;
                     case 'stock_statistics':
                         include '../pages/stock_statistics.php';
-                        break;
-                    case 'transactions':
-                        include '../pages/transactions.php';
                         break;
                     case 'profile':
                         $id = $_SESSION['user']['id'];

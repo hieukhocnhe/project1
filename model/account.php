@@ -146,16 +146,6 @@ function editAccount($id, $username, $fullname, $avatar, $email, $tel, $address,
     }
 }
 
-
-function deleteAccount($id)
-{
-    try {
-        $sql = "DELETE FROM accounts WHERE id = $id";
-        pdo_execute($sql);
-    } catch (Exception $e) {
-        echo $e->getMessage();
-    }
-}
 function getPositions()
 {
     try {

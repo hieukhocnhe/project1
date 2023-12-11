@@ -43,10 +43,10 @@
         </table>
     </div>
 </div>
-<!--------Thêm lô hàng----------->
+<!--------Thêm khu vực lưu trữ----------->
 
 <?php include_once 'modals/addStorageArea.php' ?>
 
-<!--------Sửa lô hàng----------->
+<!--------Sửa khu vực lưu trữ----------->
 
 <?php include_once 'modals/editStorageArea.php' ?>

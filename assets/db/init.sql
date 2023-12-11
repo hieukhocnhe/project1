@@ -268,31 +268,45 @@ INSERT INTO transaction_types (name, description, created_at, updated_at) VALUES
     ('Đổi trả', 'Giao dịch đổi trả sản phẩm', NOW(), NOW()),
     ('Kiểm kê', 'Giao dịch kiểm kê tồn kho', NOW(), NOW());
 
-
 -- Bảng giao dịch
 CREATE TABLE transactions (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    product_id INT(11) NOT NULL,
     transaction_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     transaction_type_id INT(11) NOT NULL,
     quantity_changed INT(11) NOT NULL,
     storage_area_id INT(11) NOT NULL,
+    account_id INT(11) NOT NULL,
+    transaction_code VARCHAR(255) NOT NULL,
     status VARCHAR(50), 
     previous_quantity INT(11),
+    total_amount INT(11) NULL,
     FOREIGN KEY (transaction_type_id) REFERENCES transaction_types(id),
+    FOREIGN KEY (product_id) REFERENCES products(id),
     FOREIGN KEY (storage_area_id) REFERENCES storage_areas(id),
     FOREIGN KEY (account_id) REFERENCES accounts(id)
 );
 
 
--- Bảng sản phẩm giao dịch
-CREATE TABLE transaction_products (
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    transaction_id INT(11) NOT NULL,
-    product_id INT(11) NOT NULL,
-    quantity_changed INT(11) NOT NULL,
-    FOREIGN KEY (transaction_id) REFERENCES transactions(id),
-    FOREIGN KEY (product_id) REFERENCES products(id)
-);
+-- Insert dữ liệu giả cho bảng transactions
+INSERT INTO transactions (transaction_date, transaction_type_id, quantity_changed, storage_area_id, account_id, transaction_code, status, previous_quantity, total_amount)
+SELECT
+    NOW() - INTERVAL FLOOR(RAND() * 365) DAY AS transaction_date,
+    FLOOR(1 + RAND() * 4) AS transaction_type_id,
+    FLOOR(1 + RAND() * 100) AS quantity_changed,
+    FLOOR(1 + RAND() * 300) AS storage_area_id,
+    FLOOR(1 + RAND() * 4) AS account_id,
+    CONCAT('TX', LPAD(FLOOR(100000 + RAND() * 900000), 6, '0')) AS transaction_code,
+    CASE
+        WHEN RAND() < 0.7 THEN 'Hoàn Thành'
+        WHEN RAND() < 0.9 THEN 'Đang Xử Lý'
+        ELSE 'Hủy bỏ'
+    END AS status,
+    FLOOR(1 + RAND() * 50) AS previous_quantity,
+    FLOOR(1000 + RAND() * 9000) AS total_amount
+FROM
+    information_schema.tables;
+
 
 
 -- Bảng thống kê và báo cáo
