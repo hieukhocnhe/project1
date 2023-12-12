@@ -268,6 +268,22 @@ INSERT INTO transaction_types (name, description, created_at, updated_at) VALUES
     ('Đổi trả', 'Giao dịch đổi trả sản phẩm', NOW(), NOW()),
     ('Kiểm kê', 'Giao dịch kiểm kê tồn kho', NOW(), NOW());
 
+-- Bảng trạng thái của giao dịch
+CREATE TABLE transaction_statuses (
+    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL,
+    description TEXT,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT NULL
+);
+
+-- Insert dữ liệu giả cho bảng transaction_statuses
+INSERT INTO transaction_statuses (name, description, created_at, updated_at) VALUES
+    ('Hoàn thành', 'Giao dịch đã hoàn thành', NOW(), NOW()),
+    ('Đang xử lý', 'Giao dịch đang trong quá trình xử lý', NOW(), NOW()),
+    ('Hủy bỏ', 'Giao dịch đã bị hủy bỏ', NOW(), NOW());
+
+
 -- Bảng giao dịch
 CREATE TABLE transactions (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -278,13 +294,14 @@ CREATE TABLE transactions (
     storage_area_id INT(11) NOT NULL,
     account_id INT(11) NOT NULL,
     transaction_code VARCHAR(255) NOT NULL,
-    status VARCHAR(50), 
+    status_id INT(1), 
     previous_quantity INT(11),
     total_amount INT(11) NULL,
     FOREIGN KEY (transaction_type_id) REFERENCES transaction_types(id),
     FOREIGN KEY (product_id) REFERENCES products(id),
     FOREIGN KEY (storage_area_id) REFERENCES storage_areas(id),
-    FOREIGN KEY (account_id) REFERENCES accounts(id)
+    FOREIGN KEY (account_id) REFERENCES accounts(id),
+    FOREIGN KEY (status_id) REFERENCES transaction_statuses(id)
 );
 
 

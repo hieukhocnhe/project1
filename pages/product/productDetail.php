@@ -28,21 +28,27 @@ HTML;
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($productDetail as $key => $value): ?>
+                <?php if (count($productDetail) > 0 && $productDetail[0]['batch_id'] !== NULL): ?>
+                    <?php foreach ($productDetail as $key => $value): ?>
+                        <tr>
+                            <td class="align-middle">
+                                <?= $value['batch_id'] ?>
+                            </td>
+                            <td class="align-middle">
+                                <?= $value['batche_code'] ?>
+                            </td>
+                            <td class="align-middle">
+                                <?= $value['batch_manufacturing_date'] ?>
+                            </td>
+                            <td class="align-middle">
+                                <?= $value['batch_expiry_date'] ?>
+                            </td>
+                        <?php endforeach ?>
+                    <?php else: ?>
                     <tr>
-                        <td class="align-middle">
-                            <?= $value['batch_id'] ?>
-                        </td>
-                        <td class="align-middle">
-                            <?= $value['batche_code'] ?>
-                        </td>
-                        <td class="align-middle">
-                            <?= $value['batch_manufacturing_date'] ?>
-                        </td>
-                        <td class="align-middle">
-                            <?= $value['batch_expiry_date'] ?>
-                        </td>
-                    <?php endforeach ?>
+                        <td colspan="7" class="text-center">Sản phẩm không thuộc lô hàng nào.</td>
+                    </tr>
+                <?php endif ?>
             </tbody>
         </table>
     </div>

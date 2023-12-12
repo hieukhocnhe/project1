@@ -78,9 +78,9 @@ function getProductDetailByProductId($id)
                     batches.expiry_date AS batch_expiry_date
                 FROM 
                     products
-                JOIN 
+                LEFT JOIN 
                     batch_products ON products.id = batch_products.product_id
-                JOIN 
+                LEFT JOIN 
                     batches ON batch_products.batch_id = batches.id
                 WHERE 
                     products.id = $id;";
@@ -100,9 +100,20 @@ function getAllProductStatuses()
     }
 }
 
-function getQuantityInStock ($product_id) {
+function getQuantityInStockByProductId($product_id)
+{
     try {
-        $sql = "SELECT quantity_in_stock FROM products WHERE id = $product_id;";
+        $sql = "SELECT quantity_in_stock FROM products WHERE id = '$product_id';";
+        return pdo_query_one($sql);
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+}
+
+function getPriceByProductId($product_id)
+{
+    try {
+        $sql = "SELECT price FROM products WHERE id = '$product_id';";
         return pdo_query_one($sql);
     } catch (\Exception $e) {
         echo $e->getMessage();

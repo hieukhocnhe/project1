@@ -35,44 +35,52 @@ HTML;
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($transactions as $key => $value): ?>
-                    <tr>
-                        <td class="align-middle">
-                            <?= $value['id'] ?>
-                        </td>
-                        <td class="align-middle">
-                            <?= $value['transaction_code'] ?>
-                        </td>
-                        <td class="align-middle">
-                            <?= $value['transaction_date'] ?>
-                        </td>
-                        <td class="align-middle">
-                            <?= $value['transaction_type_name'] ?>
-                        </td>
-                        <td class="align-middle">
-                            <?= $value['fullname'] ?>
-                        </td>
-                        <td class="align-middle">
-                            <span class="<?php if ($value['status'] === "Hoàn thành") {
-                                echo "badge badge-sm bg-success";
-                            } else if ($value['status'] === "Đang xử lý") {
-                                echo "badge badge-sm bg-warning";
-                            } else {
-                                echo "badge badge-sm bg-secondary";
-                            }
-                            ?>">
-                                <?= $value['status'] ?>
-                            </span>
-                        </td>
-                        <td class="align-middle pt-4">
-                            <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#editTransaction" data-value='<?= json_encode($transaction) ?>'>
-                                <i class="ni ni-settings"></i>
-                            </button>
-                            <a class="btn btn-success btn-sm" href="?act=transactionDetail&id=<?= $value['id'] ?>"><i
-                                    class="fa fa-info"></i></a>
-                        </td>
+                <?php if (count($transactions) > 0 && $transactions[0]['id'] !== NULL): ?>
+                    <?php foreach ($transactions as $transaction):
+                        extract($transaction) ?>
+                        <tr>
+                            <td class="align-middle">
+                                <?= $id ?>
+                            </td>
+                            <td class="align-middle">
+                                <?= $transaction_code ?>
+                            </td>
+                            <td class="align-middle">
+                                <?= $transaction_date ?>
+                            </td>
+                            <td class="align-middle">
+                                <?= $transaction_type_name ?>
+                            </td>
+                            <td class="align-middle">
+                                <?= $fullname ?>
+                            </td>
+                            <td class="align-middle">
+                                <span class="<?php if ($status_id == 1) {
+                                    echo "badge badge-sm bg-success";
+                                } elseif ($status_id == 2) {
+                                    echo "badge badge-sm bg-warning";
+                                } else {
+                                    echo "badge badge-sm bg-secondary";
+                                }
+                                ?>">
+                                    <?= $status_name ?>
+                                </span>
+                            </td>
+                            <td class="align-middle pt-4">
+                                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#editTransaction" data-value='<?= json_encode($transaction) ?>'>
+                                    <i class="ni ni-settings"></i>
+                                </button>
+                                <a class="btn btn-success btn-sm" href="?act=transactionDetail&id=<?= $id ?>"><i
+                                        class="fa fa-info"></i></a>
+                            </td>
+                        </tr>
                     <?php endforeach ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="7" class="text-center">Sản phẩm không có giao dịch nào.</td>
+                    </tr>
+                <?php endif ?>
             </tbody>
         </table>
     </div>

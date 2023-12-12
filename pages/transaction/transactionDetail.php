@@ -52,7 +52,7 @@ HTML;
                             </h6>
                             <h6 class="mb-3 ms-3">
                                 Trạng thái :
-                                <?= $value['status'] ?>
+                                <?= $value['status_name'] ?>
                             </h6>
                         </div>
                         <div class="ms-6 d-flex flex-column">
@@ -89,12 +89,12 @@ HTML;
                                 <?= $value['quantity_changed'] ?>
                             </h6>
                             <h6 class="mb-3 me-3">Giá sản phẩm :
-                                <?= $value['product_price'] ?>
+                                <?= number_format($value['product_price'], 0, ',', '.') ?> VNĐ
                             </h6>
                             <hr class="bg-secondary border-2 border-top border-secondary" />
                             <h6 class="mb-3 me-3">
                                 Tổng tiền :
-                                <?= number_format($value['total_amount'], 0, ',', '.') ?>
+                                <?= number_format($value['total_amount'], 0, ',', '.') ?> VNĐ
                             </h6>
                         </div>
                     </div>

@@ -14,6 +14,7 @@ include '../model/storageArea.php';
 include '../model/batche.php';
 include '../model/product.php';
 include '../model/transaction.php';
+include '../model/inventory.php';
 include '../model/excel.php';
 require '../lib/PhpExcel/vendor/autoload.php';
 // include 'permission.php';
@@ -58,10 +59,10 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         include 'dashboard.php';
                         break;
                     case 'accounts';
-                            $accounts = getAllAccounts();
-                            $positions = getPositions();
-                            include '../pages/accounts.php';
-                            break;
+                        $accounts = getAllAccounts();
+                        $positions = getPositions();
+                        include '../pages/accounts.php';
+                        break;
                     case 'addAccount':
                         if (isset($_POST['addAccount'])) {
                             $username = $_POST['username'];
@@ -298,6 +299,7 @@ require '../lib/PhpExcel/vendor/autoload.php';
                     case 'productTransactions':
                         $transactions = getAllTransactionByProductId($_GET['id']);
                         $types = getAllTypeTransaction();
+                        $statuses = getAllTransactionStatus();
                         include '../pages/transaction/productTransactions.php';
                         break;
                     case 'transactionDetail':
@@ -305,13 +307,75 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         include '../pages/transaction/transactionDetail.php';
                         break;
                     case 'addTransaction':
-                        if(isset($_POST['addTransaction'])) {
-                        
+                        if (isset($_POST['addTransaction'])) {
+                            $product_id = $_POST['id'];
+                            $transaction_date = $_POST['transaction_date'];
+                            $transaction_type_id = $_POST['transaction_type_id'];
+                            $quantity_changed = $_POST['quantity_changed'];
+                            $account_id = $_SESSION['user']['id'];
+                            $transaction_code = $_POST['transaction_code'];
+                            $status_id = $_POST['status_id'];
+                            $storage_area_id = $_POST['storage_area_id'];
+                            if (empty($storage_area_id)) {
+                                $storage_area_id = 'default';
+                            }
+                            $quantity_in_stock = getQuantityInStockByProductId($product_id);
+                            $price_product = getPriceByProductId($product_id);
+                            $total_amount = 0;
+                            // Convert datetime
+                            $dateTime = new DateTime($transaction_date);
+                            $transaction_date = $dateTime->format('Y-m-d H:i:s');
+                            $data1 = $quantity_in_stock;
+                            $data2 = $price_product;
+
+                            $quantityInStock = reset($data1);
+                            $priceProduct = reset($data2);
+                            // Kiểm tra loại giao dịch
+                            if ($transaction_type_id == 1) {
+                                // Loại giao dịch là nhập kho
+                                $total_amount = $priceProduct * $quantity_changed;
+                                processIncomingTransaction($product_id, $transaction_date, $transaction_type_id, $quantity_changed, $storage_area_id, $account_id, $transaction_code, $status_id, $quantityInStock, $total_amount);
+                                echo '<meta http-equiv="refresh" content="0;url=?act=transactions">';
+                            } else {
+                                $total_amount = $priceProduct * $quantity_changed;
+                                processOutcomingTransaction($product_id, $transaction_date, $transaction_type_id, $quantity_changed, $storage_area_id, $account_id, $transaction_code, $status_id, $quantityInStock, $total_amount);
+                                echo '<meta http-equiv="refresh" content="0;url=?act=transactions">';
+                            }
                         }
-                        echo '<meta http-equiv="refresh" content="0;url=?act=productTransactions">';
+                        break;
+                    case 'editTransaction':
+                        if (isset($_POST['editTransaction'])) {
+                            $id = $_POST['edit_id'];
+                            $product_id = $_POST['edit_product_id'];
+                            $transaction_date = $_POST['edit_transaction_date'];
+                            $transaction_type_id = $_POST['edit_transaction_type_id'];
+                            $quantity_changed = $_POST['edit_quantity_changed'];
+                            $storage_area_id = $_POST['edit_storage_area_id'];
+                            if (empty($storage_area_id)) {
+                                $storage_area_id = 'default';
+                            }
+                            $account_id = $_POST['edit_account_id'];
+                            $transaction_code = $_POST['edit_transaction_code'];
+                            $status_id = $_POST['edit_status_id'];
+                            $previous_quantity = $_POST['edit_previous_quantity'];
+                            $total_amount = $_POST['edit_total_amount'];
+                            // Convert datetime
+                            $dateTime = new DateTime($transaction_date);
+                            $transaction_date = $dateTime->format('Y-m-d H:i:s');
+                        }
+                        editTransaction($id, $product_id, $transaction_date, $transaction_type_id, $quantity_changed, $storage_area_id, $account_id, $transaction_code, $status_id, $previous_quantity, $total_amount);
+                        echo '<meta http-equiv="refresh" content="0;url=?act=transactions">';
+                        break;
+                    case 'inventory':
+                        $products = getAllProducts();
+                        $statuses = getAllProductStatuses();
+                        include '../pages/inventory/inventory.php';
                         break;
                     case 'inventories':
-                        include '../pages/inventories.php';
+                        $inventories = getInventoryByProductId($_GET['id']);
+                        // var_dump($inventories);
+                        // die;
+                        include '../pages/inventory/inventories.php';
                         break;
                     case 'stock_statistics':
                         include '../pages/stock_statistics.php';
