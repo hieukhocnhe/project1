@@ -55,12 +55,6 @@
                                         Đăng nhập
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link me-2" href="forgot_password.php">
-                                        <i class="fas fa-key opacity-6 text-dark me-1"></i>
-                                        Quên mật khẩu
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -105,12 +99,6 @@
                                         Bạn chưa có tài khoản?
                                         <a class="text-primary text-gradient font-weight-bold" href="signup.php">Đăng
                                             ký</a>
-                                    </p>
-                                    <p class="mb-4 text-sm mx-auto">
-                                        Bạn không nhớ mật khẩu?
-                                        <a class="text-primary text-gradient font-weight-bold"
-                                            href="forgot_password.php">Quên
-                                            mật khẩu</a>
                                     </p>
                                 </div>
                             </div>

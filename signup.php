@@ -53,12 +53,6 @@
                                         Đăng nhập
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link me-2" href="forgot_password.php">
-                                        <i class="fas fa-key opacity-6 text-dark me-1"></i>
-                                        Quên mật khẩu
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
