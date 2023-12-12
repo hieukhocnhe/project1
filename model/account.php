@@ -155,3 +155,16 @@ function getPositions()
         echo $e->getMessage();
     }
 }
+
+
+function getPositionByUserId($user_id)
+{
+    try {
+        $sql = "SELECT position_name FROM accounts 
+        JOIN positions ON positions.id = accounts.position_id
+        WHERE accounts.id = '$user_id';";
+        return pdo_query_one($sql);
+    } catch (\Exception $e) {
+        echo $e->getMessage();
+    }
+}

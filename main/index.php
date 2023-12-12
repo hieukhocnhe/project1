@@ -6,6 +6,8 @@ if (!isset($_SESSION['user'])) {
     header("location: ../index.php");
 }
 
+// var_dump($_SESSION['user']);
+
 // Include
 include '../model/pdo.php';
 include '../model/account.php';
@@ -17,8 +19,8 @@ include '../model/transaction.php';
 include '../model/inventory.php';
 include '../model/stock_statistic.php';
 include '../model/excel.php';
-require '../lib/PhpExcel/vendor/autoload.php';
-// include 'permission.php';
+include '../lib/PhpExcel/vendor/autoload.php';
+include 'permission.php';
 
 ?>
 
@@ -62,326 +64,6 @@ require '../lib/PhpExcel/vendor/autoload.php';
             if (isset($_GET['act']) && $_GET['act'] !== '') {
                 switch ($_GET['act']) {
                     case 'dashboard':
-                        include 'dashboard.php';
-                        break;
-                    case 'accounts';
-                        $accounts = getAllAccounts();
-                        $positions = getPositions();
-                        include '../pages/accounts.php';
-                        break;
-                    case 'addAccount':
-                        if (isset($_POST['addAccount'])) {
-                            $username = $_POST['username'];
-                            $password = hashPassword($_POST['password']);
-                            $fullname = $_POST['fullname'];
-                            $email = $_POST['email'];
-                            $address = $_POST['address'];
-                            $tel = $_POST['tel'];
-                            $bio = $_POST['bio'];
-                            $position_id = $_POST['position_id'];
-
-                            if ($_FILES['avatar']['name'] != "") {
-                                $path = '../assets/img/accounts/';
-                                $avatar = $_FILES['avatar']['name'];
-                                move_uploaded_file($_FILES['avatar']['tmp_name'], $path . $avatar);
-                            }
-                        }
-                        insertAccount($username, $password, $fullname, $avatar, $email, $address, $tel, $bio, $position_id);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=accounts">';
-                        break;
-                    case 'editAccount':
-                        if (isset($_POST['editAccount'])) {
-                            $id = $_POST['edit_id'];
-                            $username = $_POST['edit_username'];
-                            $fullname = $_POST['edit_fullname'];
-                            $email = $_POST['edit_email'];
-                            $address = $_POST['edit_address'];
-                            $tel = $_POST['edit_tel'];
-                            $bio = $_POST['edit_bio'];
-                            $position_id = $_POST['position_id'];
-                            $status = $_POST['edit_status'];
-                            $status_text = ($status == 0) ? 'Đã nghỉ việc' : 'Đang làm việc';
-                            if ($_FILES['edit_avatar']['name'] != "") {
-                                $path = '../assets/img/accounts/';
-                                $avatar = $_FILES['edit_avatar']['name'];
-                                move_uploaded_file($_FILES['edit_avatar']['tmp_name'], $path . $avatar);
-                            } else {
-                                $avatar = $_POST['edit_avatar'];
-                            }
-                        }
-                        editAccount($id, $username, $fullname, $avatar, $email, $tel, $address, $bio, $status_text, $position_id);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=accounts">';
-                        break;
-                    case 'suppliers':
-                        $suppliers = getAllSuppliers();
-                        include '../pages/suppliers.php';
-                        break;
-                    case 'addSupplier':
-                        if (isset($_POST['addSupplier'])) {
-                            $name = $_POST['name'];
-                            $contact_person = $_POST['contact_person'];
-                            $contact_number = $_POST['contact_number'];
-                            if ($_FILES['logo']['name'] != "") {
-                                $path = '../assets/img/suppliers/';
-                                $logo = $_FILES['logo']['name'];
-                                move_uploaded_file($_FILES['logo']['tmp_name'], $path . $logo);
-                            }
-                        }
-                        insertSupplier($name, $logo, $contact_person, $contact_number);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
-                        break;
-                    case 'editSupplier':
-                        if (isset($_POST['editSupplier'])) {
-                            $id = $_POST['edit_id'];
-                            $name = $_POST['edit_name'];
-                            $contact_person = $_POST['edit_contact_person'];
-                            $contact_number = $_POST['edit_contact_number'];
-                            if ($_FILES['edit_logo']['name'] != "") {
-                                $path = '../assets/img/suppliers/';
-                                $logo = $_FILES['edit_logo']['name'];
-                                move_uploaded_file($_FILES['edit_logo']['tmp_name'], $path . $logo);
-                            } else {
-                                $logo = $_POST['edit_logo'];
-                            }
-                        }
-                        editSupplier($id, $name, $logo, $contact_person, $contact_number);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
-                        break;
-                    case 'delSupplier':
-                        deleteSupplier($_GET['id']);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
-                        break;
-                    case 'storageAreas':
-                        $storageAreas = getAllStorageArea();
-                        include '../pages/storageArea/storageAreas.php';
-                        break;
-                    case 'storageAreaDetail':
-                        $storageAreaDetail = getStorageAreaById($_GET['id']);
-                        include '../pages/storageArea/storageAreaDetail.php';
-                        break;
-                    case 'addStorageArea':
-                        if (isset($_POST['addStorageArea'])) {
-                            $area_name = $_POST['area_name'];
-                        }
-                        insertStorageArea($area_name);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=storageAreas">';
-                        break;
-                    case 'editStorageArea':
-                        if (isset($_POST['editStorageArea'])) {
-                            $id = $_POST['edit_id'];
-                            $area_name = $_POST['edit_area_name'];
-                        }
-                        editStorageArea($id, $area_name);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=storageAreas">';
-                        break;
-                    case 'delStorageArea':
-                        deleteStorageArea($_GET['id']);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=storageAreas">';
-                        break;
-                    case 'batches':
-                        $statuses = getAllBatchStatuses();
-                        $batches = getAllBatches();
-                        include '../pages/batche/batches.php';
-                        break;
-                    case 'batcheDetail':
-                        $batchDetail = getAllProductByBatcheId($_GET['id']);
-                        include '../pages/batche/batcheDetail.php';
-                        break;
-                    case 'addBatche':
-                        if (isset($_POST['addBatche'])) {
-
-                            // Thêm một lô hàng
-                            $batche_code = $_POST['batche_code'];
-                            $supplier_id = $_POST['supplier_id'];
-                            $storage_area_id = $_POST['storage_area_id'];
-                            $manufacturing_date = $_POST['manufacturing_date'];
-                            $expiry_date = $_POST['expiry_date'];
-                            $created_at = $_POST['created_at'];
-                            $status_id = $_POST['status_id'];
-
-                            $dateTime = new DateTime($created_at);
-                            $created_at = $dateTime->format('Y-m-d H:i:s');
-
-                            insertBatche($batche_code, $supplier_id, $storage_area_id, $manufacturing_date, $expiry_date, $created_at, $status_id);
-                            // Lấy ra ID lô hàng tạo gần đây nhất
-                            $latestBatch = getLatestBatche();
-                            $batch_id = $latestBatch['id'];
-
-                            // Xử lý thêm sản phẩm từ file ở đây
-                            $file = $_FILES['products'];
-                            $file_name = $file['name'];
-                            $tmp_file = $file['tmp_name'];
-                            $extension = pathinfo($file_name, PATHINFO_EXTENSION);
-                            $upload_directory = '../assets/public/product_upload/';
-                            if ($extension == 'xlsx') {
-                                if (move_uploaded_file($tmp_file, $upload_directory . $file_name)) {
-                                    echo "Upload file thành công";
-                                    $products = readDataFromExcelBySheetName($upload_directory . $file_name, 'products');
-                                    foreach ($products as $product) {
-                                        if ($product['A'] !== 'name') {
-                                            addBatchDetail($batch_id, $product['A']);
-                                        }
-                                    }
-                                } else {
-                                    echo "Lỗi trong quá trình upload file";
-                                }
-                            } else {
-                                echo "File không đúng định dạng";
-                            }
-                        }
-                        echo '<meta http-equiv="refresh" content="0;url=?act=batches">';
-                        break;
-                    case 'editBatche':
-                        if (isset($_POST['editBatche'])) {
-
-                            $id = $_POST['edit_id'];
-                            $batche_code = $_POST['edit_batche_code'];
-                            $supplier_id = $_POST['edit_supplier_id'];
-                            $storage_id = $_POST['edit_storage_id'];
-                            $manufacturing_date = $_POST['edit_manufacturing_date'];
-                            $expiry_date = $_POST['edit_expiry_date'];
-                            $status_id = $_POST['edit_status_id'];
-                            $created_at = $_POST['edit_created_at'];
-
-                            $dateTime = new DateTime($created_at);
-                            $created_at = $dateTime->format('Y-m-d H:i:s');
-
-                            editBatche($id, $batche_code, $supplier_id, $storage_id, $manufacturing_date, $expiry_date, $status_id, $created_at);
-                        }
-                        echo '<meta http-equiv="refresh" content="0;url=?act=batches">';
-                        break;
-                    case 'products':
-                        $products = getAllProducts();
-                        $statuses = getAllProductStatuses();
-                        include '../pages/product/products.php';
-                        break;
-                    case 'productDetail':
-                        $productDetail = getProductDetailByProductId($_GET['id']);
-                        include '../pages/product/productDetail.php';
-                        break;
-                    case 'addProduct':
-                        if (isset($_POST['addProduct'])) {
-                            $name = $_POST['name'];
-                            $price = $_POST['price'];
-                            $quantity_in_stock = $_POST['quantity_in_stock'];
-                            $manufacturing_date = $_POST['manufacturing_date'];
-                            $expiry_date = $_POST['expiry_date'];
-                            $unit = $_POST['unit'];
-                            $status_id = $_POST['status_id'];
-                            if ($_FILES['image']['name'] != "") {
-                                $path = '../assets/img/products/';
-                                $image = $_FILES['image']['name'];
-                                move_uploaded_file($_FILES['image']['tmp_name'], $path . $image);
-                            }
-                        }
-                        insertProduct($name, $price, $image, $quantity_in_stock, $manufacturing_date, $expiry_date, $unit, $status_id);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=products">';
-                        break;
-                    case 'editProduct':
-                        if (isset($_POST['editProduct'])) {
-                            $id = $_POST['edit_id'];
-                            $name = $_POST['edit_name'];
-                            $price = $_POST['edit_price'];
-                            $manufacturing_date = $_POST['edit_manufacturing_date'];
-                            $expiry_date = $_POST['edit_expiry_date'];
-                            $status_id = $_POST['edit_status_id'];
-                            $unit = $_POST['edit_unit'];
-                            if ($_FILES['edit_image']['name'] != "") {
-                                $path = '../assets/img/products/';
-                                $image = $_FILES['edit_image']['name'];
-                                move_uploaded_file($_FILES['edit_image']['tmp_name'], $path . $image);
-                            } else {
-                                $image = $_POST['edit_image'];
-                            }
-                        }
-                        editProduct($name, $price, $image, $manufacturing_date, $expiry_date, $status_id, $unit, $id);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=products">';
-                        break;
-                    case 'transactions':
-                        $product_transactions = getAllProducts();
-                        $statuses = getAllProductStatuses();
-                        include '../pages/transaction/transactions.php';
-                        break;
-                    case 'productTransactions':
-                        $transactions = getAllTransactionByProductId($_GET['id']);
-                        $types = getAllTypeTransaction();
-                        $statuses = getAllTransactionStatus();
-                        include '../pages/transaction/productTransactions.php';
-                        break;
-                    case 'transactionDetail':
-                        $transactionDetail = getTransactionDetail($_GET['id']);
-                        include '../pages/transaction/transactionDetail.php';
-                        break;
-                    case 'addTransaction':
-                        if (isset($_POST['addTransaction'])) {
-                            $product_id = $_POST['id'];
-                            $transaction_date = $_POST['transaction_date'];
-                            $transaction_type_id = $_POST['transaction_type_id'];
-                            $quantity_changed = $_POST['quantity_changed'];
-                            $account_id = $_SESSION['user']['id'];
-                            $transaction_code = $_POST['transaction_code'];
-                            $status_id = $_POST['status_id'];
-                            $storage_area_id = $_POST['storage_area_id'];
-                            if (empty($storage_area_id)) {
-                                $storage_area_id = 'default';
-                            }
-                            $quantity_in_stock = getQuantityInStockByProductId($product_id);
-                            $price_product = getPriceByProductId($product_id);
-                            $total_amount = 0;
-                            // Convert datetime
-                            $dateTime = new DateTime($transaction_date);
-                            $transaction_date = $dateTime->format('Y-m-d H:i:s');
-                            $data1 = $quantity_in_stock;
-                            $data2 = $price_product;
-
-                            $quantityInStock = reset($data1);
-                            $priceProduct = reset($data2);
-                            // Kiểm tra loại giao dịch
-                            if ($transaction_type_id == 1) {
-                                // Loại giao dịch là nhập kho
-                                $total_amount = $priceProduct * $quantity_changed;
-                                processIncomingTransaction($product_id, $transaction_date, $transaction_type_id, $quantity_changed, $storage_area_id, $account_id, $transaction_code, $status_id, $quantityInStock, $total_amount);
-                                echo '<meta http-equiv="refresh" content="0;url=?act=transactions">';
-                            } else {
-                                $total_amount = $priceProduct * $quantity_changed;
-                                processOutcomingTransaction($product_id, $transaction_date, $transaction_type_id, $quantity_changed, $storage_area_id, $account_id, $transaction_code, $status_id, $quantityInStock, $total_amount);
-                                echo '<meta http-equiv="refresh" content="0;url=?act=transactions">';
-                            }
-                        }
-                        break;
-                    case 'editTransaction':
-                        if (isset($_POST['editTransaction'])) {
-                            $id = $_POST['edit_id'];
-                            $product_id = $_POST['edit_product_id'];
-                            $transaction_date = $_POST['edit_transaction_date'];
-                            $transaction_type_id = $_POST['edit_transaction_type_id'];
-                            $quantity_changed = $_POST['edit_quantity_changed'];
-                            $storage_area_id = $_POST['edit_storage_area_id'];
-                            if (empty($storage_area_id)) {
-                                $storage_area_id = 'default';
-                            }
-                            $account_id = $_POST['edit_account_id'];
-                            $transaction_code = $_POST['edit_transaction_code'];
-                            $status_id = $_POST['edit_status_id'];
-                            $previous_quantity = $_POST['edit_previous_quantity'];
-                            $total_amount = $_POST['edit_total_amount'];
-                            // Convert datetime
-                            $dateTime = new DateTime($transaction_date);
-                            $transaction_date = $dateTime->format('Y-m-d H:i:s');
-                        }
-                        editTransaction($id, $product_id, $transaction_date, $transaction_type_id, $quantity_changed, $storage_area_id, $account_id, $transaction_code, $status_id, $previous_quantity, $total_amount);
-                        echo '<meta http-equiv="refresh" content="0;url=?act=transactions">';
-                        break;
-                    case 'inventory':
-                        $products = getAllProducts();
-                        $statuses = getAllProductStatuses();
-                        include '../pages/inventory/inventory.php';
-                        break;
-                    case 'inventories':
-                        $inventories = getInventoryByProductId($_GET['id']);
-                        include '../pages/inventory/inventories.php';
-                        break;
-                    case 'stock_statistics':
                         $totalAmountToday = getTotalAmountToday()[0]['total_amount_today'];
                         $countTypeTransaction = getCountTypeTransaction();
                         $bestSellingProducts = get5BestSellingProduct();
@@ -393,7 +75,432 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         $userActivityStatistic = get5UserActivityStatistics();
                         $numberSellerActive = getNumberSellerActive();
                         $numberBatchesInTransit = getNumberShipmentsInTransit();
-                        include '../pages/stock_statistics.php';
+                        include 'dashboard.php';
+                        break;
+                    case 'accounts';
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $accounts = getAllAccounts();
+                            $positions = getPositions();
+                            include '../pages/accounts.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'addAccount':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            if (isset($_POST['addAccount'])) {
+                                $username = $_POST['username'];
+                                $password = hashPassword($_POST['password']);
+                                $fullname = $_POST['fullname'];
+                                $email = $_POST['email'];
+                                $address = $_POST['address'];
+                                $tel = $_POST['tel'];
+                                $bio = $_POST['bio'];
+                                $position_id = $_POST['position_id'];
+
+                                if ($_FILES['avatar']['name'] != "") {
+                                    $path = '../assets/img/accounts/';
+                                    $avatar = $_FILES['avatar']['name'];
+                                    move_uploaded_file($_FILES['avatar']['tmp_name'], $path . $avatar);
+                                }
+                            }
+                            insertAccount($username, $password, $fullname, $avatar, $email, $address, $tel, $bio, $position_id);
+                            echo '<meta http-equiv="refresh" content="0;url=?act=accounts">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'editAccount':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            if (isset($_POST['editAccount'])) {
+                                $id = $_POST['edit_id'];
+                                $username = $_POST['edit_username'];
+                                $fullname = $_POST['edit_fullname'];
+                                $email = $_POST['edit_email'];
+                                $address = $_POST['edit_address'];
+                                $tel = $_POST['edit_tel'];
+                                $bio = $_POST['edit_bio'];
+                                $position_id = $_POST['position_id'];
+                                $status = $_POST['edit_status'];
+                                $status_text = ($status == 0) ? 'Đã nghỉ việc' : 'Đang làm việc';
+                                if ($_FILES['edit_avatar']['name'] != "") {
+                                    $path = '../assets/img/accounts/';
+                                    $avatar = $_FILES['edit_avatar']['name'];
+                                    move_uploaded_file($_FILES['edit_avatar']['tmp_name'], $path . $avatar);
+                                } else {
+                                    $avatar = $_POST['edit_avatar'];
+                                }
+                            }
+                            editAccount($id, $username, $fullname, $avatar, $email, $tel, $address, $bio, $status_text, $position_id);
+                            echo '<meta http-equiv="refresh" content="0;url=?act=accounts">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'suppliers':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $suppliers = getAllSuppliers();
+                            include '../pages/suppliers.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'addSupplier':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            if (isset($_POST['addSupplier'])) {
+                                $name = $_POST['name'];
+                                $contact_person = $_POST['contact_person'];
+                                $contact_number = $_POST['contact_number'];
+                                if ($_FILES['logo']['name'] != "") {
+                                    $path = '../assets/img/suppliers/';
+                                    $logo = $_FILES['logo']['name'];
+                                    move_uploaded_file($_FILES['logo']['tmp_name'], $path . $logo);
+                                }
+                            }
+                            insertSupplier($name, $logo, $contact_person, $contact_number);
+                            echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'editSupplier':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            if (isset($_POST['editSupplier'])) {
+                                $id = $_POST['edit_id'];
+                                $name = $_POST['edit_name'];
+                                $contact_person = $_POST['edit_contact_person'];
+                                $contact_number = $_POST['edit_contact_number'];
+                                if ($_FILES['edit_logo']['name'] != "") {
+                                    $path = '../assets/img/suppliers/';
+                                    $logo = $_FILES['edit_logo']['name'];
+                                    move_uploaded_file($_FILES['edit_logo']['tmp_name'], $path . $logo);
+                                } else {
+                                    $logo = $_POST['edit_logo'];
+                                }
+                            }
+                            editSupplier($id, $name, $logo, $contact_person, $contact_number);
+                            echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'delSupplier':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            deleteSupplier($_GET['id']);
+                            echo '<meta http-equiv="refresh" content="0;url=?act=suppliers">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'storageAreas':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $storageAreas = getAllStorageArea();
+                            include '../pages/storageArea/storageAreas.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'storageAreaDetail':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $storageAreaDetail = getStorageAreaById($_GET['id']);
+                            include '../pages/storageArea/storageAreaDetail.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'addStorageArea':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            if (isset($_POST['addStorageArea'])) {
+                                $area_name = $_POST['area_name'];
+                            }
+                            insertStorageArea($area_name);
+                            echo '<meta http-equiv="refresh" content="0;url=?act=storageAreas">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'editStorageArea':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            if (isset($_POST['editStorageArea'])) {
+                                $id = $_POST['edit_id'];
+                                $area_name = $_POST['edit_area_name'];
+                            }
+                            editStorageArea($id, $area_name);
+                            echo '<meta http-equiv="refresh" content="0;url=?act=storageAreas">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'delStorageArea':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            deleteStorageArea($_GET['id']);
+                            echo '<meta http-equiv="refresh" content="0;url=?act=storageAreas">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'batches':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $statuses = getAllBatchStatuses();
+                            $batches = getAllBatches();
+                            include '../pages/batche/batches.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'batcheDetail':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $batchDetail = getAllProductByBatcheId($_GET['id']);
+                            include '../pages/batche/batcheDetail.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'addBatche':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            if (isset($_POST['addBatche'])) {
+
+                                // Thêm một lô hàng
+                                $batche_code = $_POST['batche_code'];
+                                $supplier_id = $_POST['supplier_id'];
+                                $storage_area_id = $_POST['storage_area_id'];
+                                $manufacturing_date = $_POST['manufacturing_date'];
+                                $expiry_date = $_POST['expiry_date'];
+                                $created_at = $_POST['created_at'];
+                                $status_id = $_POST['status_id'];
+
+                                $dateTime = new DateTime($created_at);
+                                $created_at = $dateTime->format('Y-m-d H:i:s');
+
+                                insertBatche($batche_code, $supplier_id, $storage_area_id, $manufacturing_date, $expiry_date, $created_at, $status_id);
+                                // Lấy ra ID lô hàng tạo gần đây nhất
+                                $latestBatch = getLatestBatche();
+                                $batch_id = $latestBatch['id'];
+
+                                // Xử lý thêm sản phẩm từ file ở đây
+                                $file = $_FILES['products'];
+                                $file_name = $file['name'];
+                                $tmp_file = $file['tmp_name'];
+                                $extension = pathinfo($file_name, PATHINFO_EXTENSION);
+                                $upload_directory = '../assets/public/product_upload/';
+                                if ($extension == 'xlsx') {
+                                    if (move_uploaded_file($tmp_file, $upload_directory . $file_name)) {
+                                        echo "Upload file thành công";
+                                        $products = readDataFromExcelBySheetName($upload_directory . $file_name, 'products');
+                                        foreach ($products as $product) {
+                                            if ($product['A'] !== 'name') {
+                                                addBatchDetail($batch_id, $product['A']);
+                                            }
+                                        }
+                                    } else {
+                                        echo "Lỗi trong quá trình upload file";
+                                    }
+                                } else {
+                                    echo "File không đúng định dạng";
+                                }
+                            }
+                            echo '<meta http-equiv="refresh" content="0;url=?act=batches">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'editBatche':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            if (isset($_POST['editBatche'])) {
+
+                                $id = $_POST['edit_id'];
+                                $batche_code = $_POST['edit_batche_code'];
+                                $supplier_id = $_POST['edit_supplier_id'];
+                                $storage_id = $_POST['edit_storage_id'];
+                                $manufacturing_date = $_POST['edit_manufacturing_date'];
+                                $expiry_date = $_POST['edit_expiry_date'];
+                                $status_id = $_POST['edit_status_id'];
+                                $created_at = $_POST['edit_created_at'];
+
+                                $dateTime = new DateTime($created_at);
+                                $created_at = $dateTime->format('Y-m-d H:i:s');
+
+                                editBatche($id, $batche_code, $supplier_id, $storage_id, $manufacturing_date, $expiry_date, $status_id, $created_at);
+                            }
+                            echo '<meta http-equiv="refresh" content="0;url=?act=batches">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'products':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $products = getAllProducts();
+                            $statuses = getAllProductStatuses();
+                            include '../pages/product/products.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'productDetail':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $productDetail = getProductDetailByProductId($_GET['id']);
+                            include '../pages/product/productDetail.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'addProduct':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            if (isset($_POST['addProduct'])) {
+                                $name = $_POST['name'];
+                                $price = $_POST['price'];
+                                $quantity_in_stock = $_POST['quantity_in_stock'];
+                                $manufacturing_date = $_POST['manufacturing_date'];
+                                $expiry_date = $_POST['expiry_date'];
+                                $unit = $_POST['unit'];
+                                $status_id = $_POST['status_id'];
+                                if ($_FILES['image']['name'] != "") {
+                                    $path = '../assets/img/products/';
+                                    $image = $_FILES['image']['name'];
+                                    move_uploaded_file($_FILES['image']['tmp_name'], $path . $image);
+                                }
+                            }
+                            insertProduct($name, $price, $image, $quantity_in_stock, $manufacturing_date, $expiry_date, $unit, $status_id);
+                            echo '<meta http-equiv="refresh" content="0;url=?act=products">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'editProduct':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            if (isset($_POST['editProduct'])) {
+                                $id = $_POST['edit_id'];
+                                $name = $_POST['edit_name'];
+                                $price = $_POST['edit_price'];
+                                $manufacturing_date = $_POST['edit_manufacturing_date'];
+                                $expiry_date = $_POST['edit_expiry_date'];
+                                $status_id = $_POST['edit_status_id'];
+                                $unit = $_POST['edit_unit'];
+                                if ($_FILES['edit_image']['name'] != "") {
+                                    $path = '../assets/img/products/';
+                                    $image = $_FILES['edit_image']['name'];
+                                    move_uploaded_file($_FILES['edit_image']['tmp_name'], $path . $image);
+                                } else {
+                                    $image = $_POST['edit_image'];
+                                }
+                            }
+                            editProduct($name, $price, $image, $manufacturing_date, $expiry_date, $status_id, $unit, $id);
+                            echo '<meta http-equiv="refresh" content="0;url=?act=products">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'transactions':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $product_transactions = getAllProducts();
+                            $statuses = getAllProductStatuses();
+                            include '../pages/transaction/transactions.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'productTransactions':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $transactions = getAllTransactionByProductId($_GET['id']);
+                            $types = getAllTypeTransaction();
+                            $statuses = getAllTransactionStatus();
+                            include '../pages/transaction/productTransactions.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'transactionDetail':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $transactionDetail = getTransactionDetail($_GET['id']);
+                            include '../pages/transaction/transactionDetail.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'addTransaction':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            if (isset($_POST['addTransaction'])) {
+                                $product_id = $_POST['id'];
+                                $transaction_date = $_POST['transaction_date'];
+                                $transaction_type_id = $_POST['transaction_type_id'];
+                                $quantity_changed = $_POST['quantity_changed'];
+                                $account_id = $_SESSION['user']['id'];
+                                $transaction_code = $_POST['transaction_code'];
+                                $status_id = $_POST['status_id'];
+                                $storage_area_id = $_POST['storage_area_id'];
+                                if (empty($storage_area_id)) {
+                                    $storage_area_id = 'default';
+                                }
+                                $quantity_in_stock = getQuantityInStockByProductId($product_id);
+                                $price_product = getPriceByProductId($product_id);
+                                $total_amount = 0;
+                                // Convert datetime
+                                $dateTime = new DateTime($transaction_date);
+                                $transaction_date = $dateTime->format('Y-m-d H:i:s');
+                                $data1 = $quantity_in_stock;
+                                $data2 = $price_product;
+
+                                $quantityInStock = reset($data1);
+                                $priceProduct = reset($data2);
+                                // Kiểm tra loại giao dịch
+                                if ($transaction_type_id == 1) {
+                                    // Loại giao dịch là nhập kho
+                                    $total_amount = $priceProduct * $quantity_changed;
+                                    processIncomingTransaction($product_id, $transaction_date, $transaction_type_id, $quantity_changed, $storage_area_id, $account_id, $transaction_code, $status_id, $quantityInStock, $total_amount);
+                                    echo '<meta http-equiv="refresh" content="0;url=?act=transactions">';
+                                } else {
+                                    $total_amount = $priceProduct * $quantity_changed;
+                                    processOutcomingTransaction($product_id, $transaction_date, $transaction_type_id, $quantity_changed, $storage_area_id, $account_id, $transaction_code, $status_id, $quantityInStock, $total_amount);
+                                    echo '<meta http-equiv="refresh" content="0;url=?act=transactions">';
+                                }
+                            } else {
+                                include '../pages/hasntPermission.php';
+                            }
+                        }
+                        break;
+                    case 'editTransaction':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            if (isset($_POST['editTransaction'])) {
+                                $id = $_POST['edit_id'];
+                                $product_id = $_POST['edit_product_id'];
+                                $transaction_date = $_POST['edit_transaction_date'];
+                                $transaction_type_id = $_POST['edit_transaction_type_id'];
+                                $quantity_changed = $_POST['edit_quantity_changed'];
+                                $storage_area_id = $_POST['edit_storage_area_id'];
+                                if (empty($storage_area_id)) {
+                                    $storage_area_id = 'default';
+                                }
+                                $account_id = $_POST['edit_account_id'];
+                                $transaction_code = $_POST['edit_transaction_code'];
+                                $status_id = $_POST['edit_status_id'];
+                                $previous_quantity = $_POST['edit_previous_quantity'];
+                                $total_amount = $_POST['edit_total_amount'];
+                                // Convert datetime
+                                $dateTime = new DateTime($transaction_date);
+                                $transaction_date = $dateTime->format('Y-m-d H:i:s');
+                            }
+                            editTransaction($id, $product_id, $transaction_date, $transaction_type_id, $quantity_changed, $storage_area_id, $account_id, $transaction_code, $status_id, $previous_quantity, $total_amount);
+                            echo '<meta http-equiv="refresh" content="0;url=?act=transactions">';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'inventory':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $products = getAllProducts();
+                            $statuses = getAllProductStatuses();
+                            include '../pages/inventory/inventory.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
+                        break;
+                    case 'inventories':
+                        if (hasPermission($_SESSION['user']['id'], $_GET['act'])) {
+                            $inventories = getInventoryByProductId($_GET['id']);
+                            include '../pages/inventory/inventories.php';
+                        } else {
+                            include '../pages/hasntPermission.php';
+                        }
                         break;
                     case 'profile':
                         $id = $_SESSION['user']['id'];
@@ -456,10 +563,6 @@ require '../lib/PhpExcel/vendor/autoload.php';
                                 exit;
                             }
                         }
-                        break;
-                    case 'forgot_password':
-
-                        include '../forgot_password.php';
                         break;
                     case 'logout':
                         unset($_SESSION['user']);

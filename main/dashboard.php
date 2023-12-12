@@ -5,14 +5,10 @@
                 <div class="row">
                     <div class="col-8">
                         <div class="numbers">
-                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Money</p>
+                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Doanh thu hôm nay</p>
                             <h5 class="font-weight-bolder">
-                                $53,000
+                                <?= number_format($totalAmountToday, 0, ',', '.') ?> VNĐ
                             </h5>
-                            <p class="mb-0">
-                                <span class="text-success text-sm font-weight-bolder">+55%</span>
-                                since yesterday
-                            </p>
                         </div>
                     </div>
                     <div class="col-4 text-end">
@@ -30,14 +26,10 @@
                 <div class="row">
                     <div class="col-8">
                         <div class="numbers">
-                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
+                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Tổng sản phẩm</p>
                             <h5 class="font-weight-bolder">
-                                2,300
+                                <?= $allProduct ?>
                             </h5>
-                            <p class="mb-0">
-                                <span class="text-success text-sm font-weight-bolder">+3%</span>
-                                since last week
-                            </p>
                         </div>
                     </div>
                     <div class="col-4 text-end">
@@ -55,14 +47,10 @@
                 <div class="row">
                     <div class="col-8">
                         <div class="numbers">
-                            <p class="text-sm mb-0 text-uppercase font-weight-bold">New Clients</p>
+                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Số lượng nhân viên</p>
                             <h5 class="font-weight-bolder">
-                                +3,462
+                                <?= $numberSellerActive['active_users'] ?>
                             </h5>
-                            <p class="mb-0">
-                                <span class="text-danger text-sm font-weight-bolder">-2%</span>
-                                since last quarter
-                            </p>
                         </div>
                     </div>
                     <div class="col-4 text-end">
@@ -80,14 +68,10 @@
                 <div class="row">
                     <div class="col-8">
                         <div class="numbers">
-                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Sales</p>
+                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Tổng lô hàng đang vận chuyển</p>
                             <h5 class="font-weight-bolder">
-                                $103,430
+                                <?= $numberBatchesInTransit['total_shipments_in_transit'] ?>
                             </h5>
-                            <p class="mb-0">
-                                <span class="text-success text-sm font-weight-bolder">+5%</span> than last
-                                month
-                            </p>
                         </div>
                     </div>
                     <div class="col-4 text-end">
@@ -100,292 +84,230 @@
         </div>
     </div>
 </div>
-<div class="row mt-4">
-    <div class="col-lg-7 mb-lg-0 mb-4">
-        <div class="card z-index-2 h-100">
-            <div class="card-header pb-0 pt-3 bg-transparent">
-                <h6 class="text-capitalize">Sales overview</h6>
-                <p class="text-sm mb-0">
-                    <i class="fa fa-arrow-up text-success"></i>
-                    <span class="font-weight-bold">4% more</span> in 2021
-                </p>
+
+<div class="container-fluid py-4">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-md-12 mb-sm-0">
+                    <div class="card bg-white shadow-xl">
+                        <div class="overflow-hidden position-relative border-radius-xl">
+                            <div class="card-body position-relative z-index-1 p-3">
+                                <h5 class="text-dark mt-4 mb-5 pb-2">Biểu đồ So Sánh Các Loại Giao Dịch</h5>
+                                <canvas id="myChart" width="400" height="100"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12 mb-lg-0 mb-4">
+                    <div class="card mt-4">
+                        <div class="card-header pb-0 p-3">
+                            <div class="row">
+                                <div class="col-6 d-flex align-items-center">
+                                    <h6 class="mb-0">Tổng doanh thu</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-3">
+                            <div class="row">
+                                <div class="col-md-6 mb-md-0 mb-4">
+                                    <div
+                                        class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                                        <h6 class="mb-0">Lợi tức :
+                                            <?= number_format($totalRevenue, 0, ',', '.') ?> VNĐ
+                                        </h6>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div
+                                        class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                                        <h6 class="mb-0">Thất thoát :
+                                            <?= number_format($totalLoss, 0, ',', '.') ?> VNĐ
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="card-body p-3">
-                <div class="chart">
-                    <canvas id="chart-line" class="chart-canvas" height="300"></canvas>
+        </div>
+        <div class="col-lg-4">
+            <div class="card h-100">
+                <div class="card-header pb-0 p-3">
+                    <div class="row">
+                        <div class="col-7 d-flex align-items-center">
+                            <h5 class="mb-0">Top 5 sản phẩm bán chạy nhất</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-3 pb-0">
+                    <div class="d-flex justify-content-between">
+                        <p class="font-weight-bold">Tên sản phẩm</p>
+                        <p class="pe-3 font-weight-bold">Tổng doanh thu</p>
+                    </div>
+                    <ul class="list-group">
+                        <?php foreach ($bestSellingProducts as $product):
+                            extract($product); ?>
+                                <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                    <div class="d-flex flex-column">
+                                        <h6 class="mb-1 text-dark font-weight-bold text-sm">
+                                            <?= $name ?>
+                                        </h6>
+                                        <span class="text-xs">
+                                            Giá :
+                                            <?= number_format($price, 0, ',', '.') ?> VNĐ
+                                        </span>
+                                    </div>
+                                    <div class="d-flex align-items-center text-sm">
+                                        <?= number_format($total_sales, 0, ',', '.') ?> VNĐ
+                                    </div>
+                                </li>
+
+                        <?php endforeach ?>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-5">
-        <div class="card card-carousel overflow-hidden h-100 p-0">
-            <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
-                <div class="carousel-inner border-radius-lg h-100">
-                    <div class="carousel-item h-100 active" style="background-image: url('../assets/img/carousel-1.jpg');
-      background-size: cover;">
-                        <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
-                            <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
-                                <i class="ni ni-camera-compact text-dark opacity-10"></i>
-                            </div>
-                            <h5 class="text-white mb-1">Get started with Argon</h5>
-                            <p>There’s nothing I really wanted to do in life that I wasn’t able to get good
-                                at.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item h-100" style="background-image: url('../assets/img/carousel-2.jpg');
-      background-size: cover;">
-                        <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
-                            <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
-                                <i class="ni ni-bulb-61 text-dark opacity-10"></i>
-                            </div>
-                            <h5 class="text-white mb-1">Faster way to create web pages</h5>
-                            <p>That’s my skill. I’m not really specifically talented at anything except for
-                                the ability to
-                                learn.</p>
-                        </div>
-                    </div>
-                    <div class="carousel-item h-100" style="background-image: url('../assets/img/carousel-3.jpg');
-      background-size: cover;">
-                        <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
-                            <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
-                                <i class="ni ni-trophy text-dark opacity-10"></i>
-                            </div>
-                            <h5 class="text-white mb-1">Share with us your design tips!</h5>
-                            <p>Don’t be afraid to be wrong because you can’t learn anything from a
-                                compliment.</p>
+
+    <div class="row">
+        <div class="col-md-7 mt-4">
+            <div class="card">
+                <div class="card-header pb-0 px-3">
+                    <h6 class="mb-0">So sánh sản phẩm</h6>
+                </div>
+                <div class="card-body pt-4 p-3">
+                    <canvas id="chartProductsByMonth" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-5 mt-4">
+            <div class="card h-100 mb-4">
+                <div class="card-header pb-0 px-3">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h6 class="mb-0">Top 5 Người Có Tổng Lợi Tức Cao Nhất</h6>
                         </div>
                     </div>
                 </div>
-                <button class="carousel-control-prev w-5 me-3" type="button" data-bs-target="#carouselExampleCaptions"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next w-5 me-3" type="button" data-bs-target="#carouselExampleCaptions"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                <div class="card-body pt-2 p-3">
+                    <canvas id="userSalesChart" width="400" height="100"></canvas>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<div class="row mt-4">
-    <div class="col-lg-7 mb-lg-0 mb-4">
-        <div class="card ">
-            <div class="card-header pb-0 p-3">
-                <div class="d-flex justify-content-between">
-                    <h6 class="mb-2">Sales by Country</h6>
-                </div>
-            </div>
-            <div class="table-responsive">
-                <table class="table align-items-center ">
-                    <tbody>
-                        <tr>
-                            <td class="w-30">
-                                <div class="d-flex px-2 py-1 align-items-center">
-                                    <div>
-                                        <img src="../assets/img/icons/flags/US.png" alt="Country flag">
-                                    </div>
-                                    <div class="ms-4">
-                                        <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                        <h6 class="text-sm mb-0">United States</h6>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                    <h6 class="text-sm mb-0">2500</h6>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                    <h6 class="text-sm mb-0">$230,900</h6>
-                                </div>
-                            </td>
-                            <td class="align-middle text-sm">
-                                <div class="col text-center">
-                                    <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                    <h6 class="text-sm mb-0">29.9%</h6>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="w-30">
-                                <div class="d-flex px-2 py-1 align-items-center">
-                                    <div>
-                                        <img src="../assets/img/icons/flags/DE.png" alt="Country flag">
-                                    </div>
-                                    <div class="ms-4">
-                                        <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                        <h6 class="text-sm mb-0">Germany</h6>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                    <h6 class="text-sm mb-0">3.900</h6>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                    <h6 class="text-sm mb-0">$440,000</h6>
-                                </div>
-                            </td>
-                            <td class="align-middle text-sm">
-                                <div class="col text-center">
-                                    <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                    <h6 class="text-sm mb-0">40.22%</h6>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="w-30">
-                                <div class="d-flex px-2 py-1 align-items-center">
-                                    <div>
-                                        <img src="../assets/img/icons/flags/GB.png" alt="Country flag">
-                                    </div>
-                                    <div class="ms-4">
-                                        <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                        <h6 class="text-sm mb-0">Great Britain</h6>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                    <h6 class="text-sm mb-0">1.400</h6>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                    <h6 class="text-sm mb-0">$190,700</h6>
-                                </div>
-                            </td>
-                            <td class="align-middle text-sm">
-                                <div class="col text-center">
-                                    <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                    <h6 class="text-sm mb-0">23.44%</h6>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="w-30">
-                                <div class="d-flex px-2 py-1 align-items-center">
-                                    <div>
-                                        <img src="../assets/img/icons/flags/BR.png" alt="Country flag">
-                                    </div>
-                                    <div class="ms-4">
-                                        <p class="text-xs font-weight-bold mb-0">Country:</p>
-                                        <h6 class="text-sm mb-0">Brasil</h6>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">Sales:</p>
-                                    <h6 class="text-sm mb-0">562</h6>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-center">
-                                    <p class="text-xs font-weight-bold mb-0">Value:</p>
-                                    <h6 class="text-sm mb-0">$143,960</h6>
-                                </div>
-                            </td>
-                            <td class="align-middle text-sm">
-                                <div class="col text-center">
-                                    <p class="text-xs font-weight-bold mb-0">Bounce:</p>
-                                    <h6 class="text-sm mb-0">32.14%</h6>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-5">
-        <div class="card">
-            <div class="card-header pb-0 p-3">
-                <h6 class="mb-0">Categories</h6>
-            </div>
-            <div class="card-body p-3">
-                <ul class="list-group">
-                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                        <div class="d-flex align-items-center">
-                            <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                <i class="ni ni-mobile-button text-white opacity-10"></i>
-                            </div>
-                            <div class="d-flex flex-column">
-                                <h6 class="mb-1 text-dark text-sm">Devices</h6>
-                                <span class="text-xs">250 in stock, <span class="font-weight-bold">346+
-                                        sold</span></span>
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <button
-                                class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                    class="ni ni-bold-right" aria-hidden="true"></i></button>
-                        </div>
-                    </li>
-                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                        <div class="d-flex align-items-center">
-                            <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                <i class="ni ni-tag text-white opacity-10"></i>
-                            </div>
-                            <div class="d-flex flex-column">
-                                <h6 class="mb-1 text-dark text-sm">Tickets</h6>
-                                <span class="text-xs">123 closed, <span class="font-weight-bold">15
-                                        open</span></span>
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <button
-                                class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                    class="ni ni-bold-right" aria-hidden="true"></i></button>
-                        </div>
-                    </li>
-                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                        <div class="d-flex align-items-center">
-                            <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                <i class="ni ni-box-2 text-white opacity-10"></i>
-                            </div>
-                            <div class="d-flex flex-column">
-                                <h6 class="mb-1 text-dark text-sm">Error logs</h6>
-                                <span class="text-xs">1 is active, <span class="font-weight-bold">40
-                                        closed</span></span>
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <button
-                                class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                    class="ni ni-bold-right" aria-hidden="true"></i></button>
-                        </div>
-                    </li>
-                    <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                        <div class="d-flex align-items-center">
-                            <div class="icon icon-shape icon-sm me-3 bg-gradient-dark shadow text-center">
-                                <i class="ni ni-satisfied text-white opacity-10"></i>
-                            </div>
-                            <div class="d-flex flex-column">
-                                <h6 class="mb-1 text-dark text-sm">Happy users</h6>
-                                <span class="text-xs font-weight-bold">+ 430</span>
-                            </div>
-                        </div>
-                        <div class="d-flex">
-                            <button
-                                class="btn btn-link btn-icon-only btn-rounded btn-sm text-dark icon-move-right my-auto"><i
-                                    class="ni ni-bold-right" aria-hidden="true"></i></button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
+
+<?php
+$quantityTransactions = getQuantityTransaction();
+// Lấy dữ liệu từ mảng PHP
+$data = [
+    'successful_transactions' => $quantityTransactions['successful_transactions'],
+    'failed_or_cancelled_transactions' => $quantityTransactions['failed_or_cancelled_transactions'],
+    'total_transactions' => $quantityTransactions['total_transactions']
+];
+?>
+<script>
+    // Lấy đối tượng canvas
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    // Tạo biểu đồ cột
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Giao dịch thành công', 'Giao dịch đang chờ/hủy bỏ', 'Tổng giao dịch'],
+            datasets: [
+                {
+                    label: 'Số lượng',
+                    data: [<?= $data['successful_transactions'] ?>, <?= $data['failed_or_cancelled_transactions'] ?>, <?= $data['total_transactions'] ?>],
+                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 206, 86, 0.2)'],
+                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 206, 86, 1)'],
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+    // Dữ liệu từ PHP
+    var phpData = <?php echo json_encode($compareProductsByMonth); ?>;
+
+    // Xử lý dữ liệu từ PHP để chuẩn bị cho biểu đồ
+    var labels = phpData.map(item => item.product_name);
+    var transactionsData = phpData.map(item => item.total_transactions);
+    var quantitySoldData = phpData.map(item => item.total_quantity_sold);
+
+    var chartData = {
+        labels: labels,
+        datasets: [{
+            label: 'Số lượng giao dịch',
+            data: transactionsData,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }, {
+            label: 'Số lượng bán',
+            data: quantitySoldData,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    // Vẽ biểu đồ bar
+    var ctx = document.getElementById('chartProductsByMonth').getContext('2d');
+    var chartProductsByMonth = new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+    // Dữ liệu từ PHP
+    var userSalesData = <?php echo json_encode($userActivityStatistic); ?>;
+    var userLabels = userSalesData.map(item => item.fullname);
+    var userSales = userSalesData.map(item => item.total_revenue);
+
+    // Vẽ biểu đồ tròn
+    var ctx = document.getElementById('userSalesChart').getContext('2d');
+    var userSalesChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: userLabels,
+            datasets: [{
+                data: userSales,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(255, 205, 86, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

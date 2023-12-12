@@ -40,7 +40,7 @@
                 <img src="../assets/img/products/<?= $image ?>" class="avatar avatar-sm rounded-circle me-2">
               </td>
               <td class="align-middle">
-                <?= $quantity_in_stock ?>
+                <?= $quantity_in_batch ?>
               </td>
               <td class="align-middle">
                 <?= $unit ?>

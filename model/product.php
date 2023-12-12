@@ -5,7 +5,7 @@ function getAllProducts()
     try {
         $sql = "SELECT products.*, product_statuses.name AS status_name
                 FROM products
-                JOIN product_statuses ON products.status_id = product_statuses.id";
+                JOIN product_statuses ON products.status_id = product_statuses.id ORDER BY products.id ASC";
         return pdo_query($sql);
     } catch (\Exception $e) {
         return $e->getMessage();
