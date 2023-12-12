@@ -15,6 +15,7 @@ include '../model/batche.php';
 include '../model/product.php';
 include '../model/transaction.php';
 include '../model/inventory.php';
+include '../model/stock_statistic.php';
 include '../model/excel.php';
 require '../lib/PhpExcel/vendor/autoload.php';
 // include 'permission.php';
@@ -38,10 +39,15 @@ require '../lib/PhpExcel/vendor/autoload.php';
     <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="g-sidenav-show bg-gray-100">
@@ -373,11 +379,20 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         break;
                     case 'inventories':
                         $inventories = getInventoryByProductId($_GET['id']);
-                        // var_dump($inventories);
-                        // die;
                         include '../pages/inventory/inventories.php';
                         break;
                     case 'stock_statistics':
+                        $totalAmountToday = getTotalAmountToday()[0]['total_amount_today'];
+                        $countTypeTransaction = getCountTypeTransaction();
+                        $bestSellingProducts = get5BestSellingProduct();
+                        $totalRevenue = getTotalRevenue()[0]['total_revenue'];
+                        $totalLoss = getTotalLoss()[0]['total_loss'];
+                        $allProduct = getAllProduct()[0]['total_products'];
+                        $quantityTransactions = getQuantityTransaction();
+                        $compareProductsByMonth = getCompareProductsByMonth();
+                        $userActivityStatistic = get5UserActivityStatistics();
+                        $numberSellerActive = getNumberSellerActive();
+                        $numberBatchesInTransit = getNumberShipmentsInTransit();
                         include '../pages/stock_statistics.php';
                         break;
                     case 'profile':
@@ -444,7 +459,7 @@ require '../lib/PhpExcel/vendor/autoload.php';
                         break;
                     case 'forgot_password':
 
-                        include 'dashboard.php';
+                        include '../forgot_password.php';
                         break;
                     case 'logout':
                         unset($_SESSION['user']);

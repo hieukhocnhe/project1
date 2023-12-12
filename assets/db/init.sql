@@ -324,23 +324,6 @@ SELECT
 FROM
     information_schema.tables;
 
-
-
--- Bảng thống kê và báo cáo
-CREATE TABLE stock_statistics (
-    id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    product_id INT(11) NOT NULL,
-    stock_date DATE NOT NULL,
-    starting_quantity INT(11),
-    ending_quantity INT(11),
-    transactions_count INT(11),
-    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    storage_area_id INT(11),
-    FOREIGN KEY (product_id) REFERENCES products(id),
-    FOREIGN KEY (storage_area_id) REFERENCES storage_areas(id)
-);
-
-
 -- Bảng tồn kho
 CREATE TABLE inventory (
     id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,

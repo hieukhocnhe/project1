@@ -1,67 +1,100 @@
+<div class="row">
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Doanh thu hôm nay</p>
+                            <h5 class="font-weight-bolder">
+                                <?= number_format($totalAmountToday, 0, ',', '.') ?> VNĐ
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
+                            <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Tổng sản phẩm</p>
+                            <h5 class="font-weight-bolder">
+                                <?= $allProduct ?>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-danger shadow-danger text-center rounded-circle">
+                            <i class="ni ni-world text-lg opacity-10" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Số lượng nhân viên</p>
+                            <h5 class="font-weight-bolder">
+                                <?= $numberSellerActive['active_users'] ?>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
+                            <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-sm-6">
+        <div class="card">
+            <div class="card-body p-3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-uppercase font-weight-bold">Tổng lô hàng đang vận chuyển</p>
+                            <h5 class="font-weight-bolder">
+                                <?= $numberBatchesInTransit['total_shipments_in_transit'] ?>
+                            </h5>
+                        </div>
+                    </div>
+                    <div class="col-4 text-end">
+                        <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
+                            <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="container-fluid py-4">
     <div class="row">
         <div class="col-lg-8">
             <div class="row">
-                <div class="col-xl-6 mb-xl-0 mb-4">
-                    <div class="card bg-transparent shadow-xl">
-                        <div class="overflow-hidden position-relative border-radius-xl"
-                            style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/public-assets/master/argon-dashboard-pro/assets/img/card-visa.jpg');">
-                            <span class="mask bg-gradient-dark"></span>
+                <div class="col-md-12 mb-sm-0">
+                    <div class="card bg-white shadow-xl">
+                        <div class="overflow-hidden position-relative border-radius-xl">
                             <div class="card-body position-relative z-index-1 p-3">
-                                <i class="fas fa-wifi text-white p-2"></i>
-                                <h5 class="text-white mt-4 mb-5 pb-2">
-                                    4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852</h5>
-                                <div class="d-flex">
-                                    <div class="d-flex">
-                                        <div class="me-4">
-                                            <p class="text-white text-sm opacity-8 mb-0">Card Holder</p>
-                                            <h6 class="text-white mb-0">Jack Peterson</h6>
-                                        </div>
-                                        <div>
-                                            <p class="text-white text-sm opacity-8 mb-0">Expires</p>
-                                            <h6 class="text-white mb-0">11/22</h6>
-                                        </div>
-                                    </div>
-                                    <div class="ms-auto w-20 d-flex align-items-end justify-content-end">
-                                        <img class="w-60 mt-2" src="../assets/img/logos/mastercard.png" alt="logo">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-6">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-header mx-4 p-3 text-center">
-                                    <div
-                                        class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
-                                        <i class="fas fa-landmark opacity-10"></i>
-                                    </div>
-                                </div>
-                                <div class="card-body pt-0 p-3 text-center">
-                                    <h6 class="text-center mb-0">Salary</h6>
-                                    <span class="text-xs">Belong Interactive</span>
-                                    <hr class="horizontal dark my-3">
-                                    <h5 class="mb-0">+$2000</h5>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mt-md-0 mt-4">
-                            <div class="card">
-                                <div class="card-header mx-4 p-3 text-center">
-                                    <div
-                                        class="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
-                                        <i class="fab fa-paypal opacity-10"></i>
-                                    </div>
-                                </div>
-                                <div class="card-body pt-0 p-3 text-center">
-                                    <h6 class="text-center mb-0">Paypal</h6>
-                                    <span class="text-xs">Freelance Payment</span>
-                                    <hr class="horizontal dark my-3">
-                                    <h5 class="mb-0">$455.00</h5>
-                                </div>
+                                <h5 class="text-dark mt-4 mb-5 pb-2">Biểu đồ So Sánh Các Loại Giao Dịch</h5>
+                                <canvas id="myChart" width="400" height="100"></canvas>
                             </div>
                         </div>
                     </div>
@@ -71,12 +104,7 @@
                         <div class="card-header pb-0 p-3">
                             <div class="row">
                                 <div class="col-6 d-flex align-items-center">
-                                    <h6 class="mb-0">Payment Method</h6>
-                                </div>
-                                <div class="col-6 text-end">
-                                    <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i
-                                            class="fas fa-plus"></i>&nbsp;&nbsp;Add
-                                        New Card</a>
+                                    <h6 class="mb-0">Tổng doanh thu</h6>
                                 </div>
                             </div>
                         </div>
@@ -85,21 +113,17 @@
                                 <div class="col-md-6 mb-md-0 mb-4">
                                     <div
                                         class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                        <img class="w-10 me-3 mb-0" src="../assets/img/logos/mastercard.png" alt="logo">
-                                        <h6 class="mb-0">
-                                            ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;7852</h6>
-                                        <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card"></i>
+                                        <h6 class="mb-0">Lợi tức :
+                                            <?= number_format($totalRevenue, 0, ',', '.') ?> VNĐ
+                                        </h6>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div
                                         class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                        <img class="w-10 me-3 mb-0" src="../assets/img/logos/visa.png" alt="logo">
-                                        <h6 class="mb-0">
-                                            ****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;5248</h6>
-                                        <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer"
-                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Card"></i>
+                                        <h6 class="mb-0">Thất thoát :
+                                            <?= number_format($totalLoss, 0, ',', '.') ?> VNĐ
+                                        </h6>
                                     </div>
                                 </div>
                             </div>
@@ -112,139 +136,49 @@
             <div class="card h-100">
                 <div class="card-header pb-0 p-3">
                     <div class="row">
-                        <div class="col-6 d-flex align-items-center">
-                            <h6 class="mb-0">Invoices</h6>
-                        </div>
-                        <div class="col-6 text-end">
-                            <button class="btn btn-outline-primary btn-sm mb-0">View All</button>
+                        <div class="col-7 d-flex align-items-center">
+                            <h5 class="mb-0">Top 5 sản phẩm bán chạy nhất</h5>
                         </div>
                     </div>
                 </div>
                 <div class="card-body p-3 pb-0">
+                    <div class="d-flex justify-content-between">
+                        <p class="font-weight-bold">Tên sản phẩm</p>
+                        <p class="pe-3 font-weight-bold">Tổng doanh thu</p>
+                    </div>
                     <ul class="list-group">
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex flex-column">
-                                <h6 class="mb-1 text-dark font-weight-bold text-sm">March, 01, 2020</h6>
-                                <span class="text-xs">#MS-415646</span>
-                            </div>
-                            <div class="d-flex align-items-center text-sm">
-                                $180
-                                <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
-                                        class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex flex-column">
-                                <h6 class="text-dark mb-1 font-weight-bold text-sm">February, 10, 2021</h6>
-                                <span class="text-xs">#RV-126749</span>
-                            </div>
-                            <div class="d-flex align-items-center text-sm">
-                                $250
-                                <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
-                                        class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex flex-column">
-                                <h6 class="text-dark mb-1 font-weight-bold text-sm">April, 05, 2020</h6>
-                                <span class="text-xs">#FB-212562</span>
-                            </div>
-                            <div class="d-flex align-items-center text-sm">
-                                $560
-                                <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
-                                        class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex flex-column">
-                                <h6 class="text-dark mb-1 font-weight-bold text-sm">June, 25, 2019</h6>
-                                <span class="text-xs">#QW-103578</span>
-                            </div>
-                            <div class="d-flex align-items-center text-sm">
-                                $120
-                                <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
-                                        class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 border-radius-lg">
-                            <div class="d-flex flex-column">
-                                <h6 class="text-dark mb-1 font-weight-bold text-sm">March, 01, 2019</h6>
-                                <span class="text-xs">#AR-803481</span>
-                            </div>
-                            <div class="d-flex align-items-center text-sm">
-                                $300
-                                <button class="btn btn-link text-dark text-sm mb-0 px-0 ms-4"><i
-                                        class="fas fa-file-pdf text-lg me-1"></i> PDF</button>
-                            </div>
-                        </li>
+                        <?php foreach ($bestSellingProducts as $product):
+                            extract($product); ?>
+                            <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
+                                <div class="d-flex flex-column">
+                                    <h6 class="mb-1 text-dark font-weight-bold text-sm">
+                                        <?= $name ?>
+                                    </h6>
+                                    <span class="text-xs">
+                                        Giá :
+                                        <?= number_format($price, 0, ',', '.') ?> VNĐ
+                                    </span>
+                                </div>
+                                <div class="d-flex align-items-center text-sm">
+                                    <?= number_format($total_sales, 0, ',', '.') ?> VNĐ
+                                </div>
+                            </li>
+
+                        <?php endforeach ?>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-7 mt-4">
             <div class="card">
                 <div class="card-header pb-0 px-3">
-                    <h6 class="mb-0">Billing Information</h6>
+                    <h6 class="mb-0">So sánh sản phẩm</h6>
                 </div>
                 <div class="card-body pt-4 p-3">
-                    <ul class="list-group">
-                        <li class="list-group-item border-0 d-flex p-4 mb-2 bg-gray-100 border-radius-lg">
-                            <div class="d-flex flex-column">
-                                <h6 class="mb-3 text-sm">Oliver Liam</h6>
-                                <span class="mb-2 text-xs">Company Name: <span
-                                        class="text-dark font-weight-bold ms-sm-2">Viking
-                                        Burrito</span></span>
-                                <span class="mb-2 text-xs">Email Address: <span
-                                        class="text-dark ms-sm-2 font-weight-bold">oliver@burrito.com</span></span>
-                                <span class="text-xs">VAT Number: <span
-                                        class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                            </div>
-                            <div class="ms-auto text-end">
-                                <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i
-                                        class="far fa-trash-alt me-2"></i>Delete</a>
-                                <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
-                                        class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-                            <div class="d-flex flex-column">
-                                <h6 class="mb-3 text-sm">Lucas Harper</h6>
-                                <span class="mb-2 text-xs">Company Name: <span
-                                        class="text-dark font-weight-bold ms-sm-2">Stone Tech
-                                        Zone</span></span>
-                                <span class="mb-2 text-xs">Email Address: <span
-                                        class="text-dark ms-sm-2 font-weight-bold">lucas@stone-tech.com</span></span>
-                                <span class="text-xs">VAT Number: <span
-                                        class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                            </div>
-                            <div class="ms-auto text-end">
-                                <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i
-                                        class="far fa-trash-alt me-2"></i>Delete</a>
-                                <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
-                                        class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex p-4 mb-2 mt-3 bg-gray-100 border-radius-lg">
-                            <div class="d-flex flex-column">
-                                <h6 class="mb-3 text-sm">Ethan James</h6>
-                                <span class="mb-2 text-xs">Company Name: <span
-                                        class="text-dark font-weight-bold ms-sm-2">Fiber
-                                        Notion</span></span>
-                                <span class="mb-2 text-xs">Email Address: <span
-                                        class="text-dark ms-sm-2 font-weight-bold">ethan@fiber.com</span></span>
-                                <span class="text-xs">VAT Number: <span
-                                        class="text-dark ms-sm-2 font-weight-bold">FRB1235476</span></span>
-                            </div>
-                            <div class="ms-auto text-end">
-                                <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="javascript:;"><i
-                                        class="far fa-trash-alt me-2"></i>Delete</a>
-                                <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i
-                                        class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Edit</a>
-                            </div>
-                        </li>
-                    </ul>
+                    <canvas id="chartProductsByMonth" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
@@ -253,107 +187,127 @@
                 <div class="card-header pb-0 px-3">
                     <div class="row">
                         <div class="col-md-6">
-                            <h6 class="mb-0">Your Transaction's</h6>
-                        </div>
-                        <div class="col-md-6 d-flex justify-content-end align-items-center">
-                            <i class="far fa-calendar-alt me-2"></i>
-                            <small>23 - 30 March 2020</small>
+                            <h6 class="mb-0">Top 5 Người Có Tổng Lợi Tức Cao Nhất</h6>
                         </div>
                     </div>
                 </div>
-                <div class="card-body pt-4 p-3">
-                    <h6 class="text-uppercase text-body text-xs font-weight-bolder mb-3">Newest</h6>
-                    <ul class="list-group">
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <button
-                                    class="btn btn-icon-only btn-rounded btn-outline-danger mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                        class="fas fa-arrow-down"></i></button>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">Netflix</h6>
-                                    <span class="text-xs">27 March 2020, at 12:30 PM</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center text-danger text-gradient text-sm font-weight-bold">
-                                - $ 2,500
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <button
-                                    class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                        class="fas fa-arrow-up"></i></button>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">Apple</h6>
-                                    <span class="text-xs">27 March 2020, at 04:30 AM</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                + $ 2,000
-                            </div>
-                        </li>
-                    </ul>
-                    <h6 class="text-uppercase text-body text-xs font-weight-bolder my-3">Yesterday</h6>
-                    <ul class="list-group">
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <button
-                                    class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                        class="fas fa-arrow-up"></i></button>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">Stripe</h6>
-                                    <span class="text-xs">26 March 2020, at 13:45 PM</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                + $ 750
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <button
-                                    class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                        class="fas fa-arrow-up"></i></button>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">HubSpot</h6>
-                                    <span class="text-xs">26 March 2020, at 12:30 PM</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                + $ 1,000
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <button
-                                    class="btn btn-icon-only btn-rounded btn-outline-success mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                        class="fas fa-arrow-up"></i></button>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">Creative Tim</h6>
-                                    <span class="text-xs">26 March 2020, at 08:30 AM</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center text-success text-gradient text-sm font-weight-bold">
-                                + $ 2,500
-                            </div>
-                        </li>
-                        <li class="list-group-item border-0 d-flex justify-content-between ps-0 mb-2 border-radius-lg">
-                            <div class="d-flex align-items-center">
-                                <button
-                                    class="btn btn-icon-only btn-rounded btn-outline-dark mb-0 me-3 btn-sm d-flex align-items-center justify-content-center"><i
-                                        class="fas fa-exclamation"></i></button>
-                                <div class="d-flex flex-column">
-                                    <h6 class="mb-1 text-dark text-sm">Webflow</h6>
-                                    <span class="text-xs">26 March 2020, at 05:00 AM</span>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center text-dark text-sm font-weight-bold">
-                                Pending
-                            </div>
-                        </li>
-                    </ul>
+                <div class="card-body pt-2 p-3">
+                    <canvas id="userSalesChart" width="400" height="100"></canvas>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<?php
+$quantityTransactions = getQuantityTransaction();
+// Lấy dữ liệu từ mảng PHP
+$data = [
+    'successful_transactions' => $quantityTransactions['successful_transactions'],
+    'failed_or_cancelled_transactions' => $quantityTransactions['failed_or_cancelled_transactions'],
+    'total_transactions' => $quantityTransactions['total_transactions']
+];
+?>
+<script>
+    // Lấy đối tượng canvas
+    var ctx = document.getElementById('myChart').getContext('2d');
+
+    // Tạo biểu đồ cột
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Giao dịch thành công', 'Giao dịch đang chờ/hủy bỏ', 'Tổng giao dịch'],
+            datasets: [
+                {
+                    label: 'Số lượng',
+                    data: [<?= $data['successful_transactions'] ?>, <?= $data['failed_or_cancelled_transactions'] ?>, <?= $data['total_transactions'] ?>],
+                    backgroundColor: ['rgba(75, 192, 192, 0.2)', 'rgba(255, 99, 132, 0.2)', 'rgba(255, 206, 86, 0.2)'],
+                    borderColor: ['rgba(75, 192, 192, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 206, 86, 1)'],
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+    // Dữ liệu từ PHP
+    var phpData = <?php echo json_encode($compareProductsByMonth); ?>;
+
+    // Xử lý dữ liệu từ PHP để chuẩn bị cho biểu đồ
+    var labels = phpData.map(item => item.product_name);
+    var transactionsData = phpData.map(item => item.total_transactions);
+    var quantitySoldData = phpData.map(item => item.total_quantity_sold);
+
+    var chartData = {
+        labels: labels,
+        datasets: [{
+            label: 'Số lượng giao dịch',
+            data: transactionsData,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }, {
+            label: 'Số lượng bán',
+            data: quantitySoldData,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    // Vẽ biểu đồ bar
+    var ctx = document.getElementById('chartProductsByMonth').getContext('2d');
+    var chartProductsByMonth = new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
+
+<script>
+    // Dữ liệu từ PHP
+    var userSalesData = <?php echo json_encode($userActivityStatistic); ?>;
+    var userLabels = userSalesData.map(item => item.fullname);
+    var userSales = userSalesData.map(item => item.total_revenue);
+
+    // Vẽ biểu đồ tròn
+    var ctx = document.getElementById('userSalesChart').getContext('2d');
+    var userSalesChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: userLabels,
+            datasets: [{
+                data: userSales,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(255, 205, 86, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>

@@ -43,8 +43,30 @@
                                 <img src="../assets/img/products/<?= $image ?>"
                                     class="avatar avatar-sm rounded-circle me-2">
                             </td>
-                            <td class="align-middle">
-                                <?= $quantity_in_stock ?>
+                            <td class="align-middle text-center">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <span class="me-2 text-xs font-weight-bold">
+                                        <?= $quantity_in_stock ?>
+                                    </span>
+                                    <div>
+                                        <div class="progress">
+                                            <?php
+                                            $progress_color = '';
+                                            if ($quantity_in_stock <= 20) {
+                                                $progress_color = 'bg-gradient-danger'; // Màu đỏ cho giá trị dưới hoặc bằng 20
+                                            } elseif ($quantity_in_stock <= 50) {
+                                                $progress_color = 'bg-gradient-warning'; // Màu vàng cho giá trị dưới hoặc bằng 50
+                                            } else {
+                                                $progress_color = 'bg-gradient-info'; // Màu xanh cho giá trị lớn hơn 50
+                                            }
+                                            ?>
+                                            <div class="progress-bar <?= $progress_color ?>" role="progressbar"
+                                                aria-valuenow="<?= $quantity_in_stock ?>" aria-valuemin="0"
+                                                aria-valuemax="100" style="width: <?= $quantity_in_stock ?>%;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </td>
                             <td class="align-middle">
                                 <?= $unit ?>
