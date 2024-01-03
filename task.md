@@ -1,4 +1,4 @@
-Tất nhiên, dưới đây là giải thích chi tiết cho từng chức năng của dự án quản lý kho hàng:
+Dưới đây là giải thích chi tiết cho từng chức năng của dự án quản lý kho hàng:
 
 1. **Quản Lý Sản Phẩm:**
    - Thêm, sửa, xóa sản phẩm: Cho phép người dùng thêm mới sản phẩm, chỉnh sửa thông tin hoặc xóa sản phẩm khỏi hệ thống.
